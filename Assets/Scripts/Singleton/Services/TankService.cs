@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TankService : MonoSingleton<TankService>
 {
+    [SerializeField] float movementSpeed;
+    [SerializeField] float turnSpeed;
     public TankView tankView;
     private void Start()
     {
@@ -11,7 +13,7 @@ public class TankService : MonoSingleton<TankService>
     }
     private void CreateTank()
     {
-        TankModel tankModel = new TankModel();
+        TankModel tankModel = new TankModel(movementSpeed,turnSpeed);
         TankController tankController = new TankController(tankView, tankModel);
 
     }
