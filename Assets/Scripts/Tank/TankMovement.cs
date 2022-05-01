@@ -24,8 +24,10 @@ public class TankMovement : MonoBehaviour
     }
     private void Update()
     {
-        movementInput = joyStick.Vertical;
-        turnInput = joyStick.Horizontal;    
+        movementInput = Input.GetAxis("Vertical");
+        //joyStick.Vertical;
+        turnInput = Input.GetAxis("Horizontal");
+        //joyStick.Horizontal;    
     }
 
     private void FixedUpdate()
