@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TankMovement : MonoBehaviour
 {
-    public float speed=12f;
-    public float turnSpeed=180f;
+    public float speed;
+    public float turnSpeed;
+    public Joystick joystick;
 
     Rigidbody rb;
-    float movementInput;
+    float movementInput; 
     float turnInput;
 
     private void Awake()
@@ -18,8 +19,8 @@ public class TankMovement : MonoBehaviour
 
     private void Update()
     {
-        movementInput = Input.GetAxis("Vertical");
-        turnInput = Input.GetAxis("Horizontal");
+        movementInput = joystick.Vertical;
+        turnInput = joystick.Horizontal;
     }
 
     private void FixedUpdate()
