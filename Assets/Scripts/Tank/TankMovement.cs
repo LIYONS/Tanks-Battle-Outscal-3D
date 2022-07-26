@@ -36,7 +36,7 @@ public class TankMovement : MonoBehaviour
 
     void Turn()
     {
-        float turn = turnInput * turnSpeed * Time.deltaTime;
+        float turn = turnInput*0.3f * turnSpeed * Time.deltaTime;
 
         Quaternion turnValue = Quaternion.Euler(0f, turn, 0f);
 
