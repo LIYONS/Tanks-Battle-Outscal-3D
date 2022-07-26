@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 1468254365419020268}
   - component: {fileID: 1468254365418620162}
   - component: {fileID: 3108013355157325274}
-  - component: {fileID: 98029599}
+  - component: {fileID: 815928522208755525}
   m_Layer: 11
   m_Name: Tank
   m_TagString: Untagged
@@ -353,7 +353,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.7, z: 1.6}
   m_Center: {x: 0, y: 0.85, z: 0}
---- !u!114 &98029599
+--- !u!114 &815928522208755525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,10 +362,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1468254365418521100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151fe7d3490f9e847b74cc5d6d45f8ac, type: 3}
+  m_Script: {fileID: 11500000, guid: f1b2ade2596e36e468a062033f9e2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  movementSpeed: 12
   turnSpeed: 180
 --- !u!1 &1468254365418521102
 GameObject:
