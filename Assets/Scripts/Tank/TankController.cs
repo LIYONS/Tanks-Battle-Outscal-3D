@@ -13,15 +13,10 @@ public class TankController
     float movementSpeed;
     float turnSpeed;
 
-    public TankController(TankModel _model,TankView _view,Joystick joyStick)
+    public TankController(TankModel _model)
     {
         tankModel = _model;
-        tankView = GameObject.Instantiate<TankView>(_view);
-        tankView.SetJoyStick(joyStick);
-        rb = tankView.GetRigidBody();
-        tankView.SetTankController(this);
         tankModel.SetTankController(this);
-        
         GetData();
     }
     public void Movement(float movementInput)

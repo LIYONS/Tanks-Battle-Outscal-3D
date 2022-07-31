@@ -1101,9 +1101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankView: {fileID: 815928522208755525, guid: 29b8b1b331a772641bd3db89c149c4da, type: 3}
-  movementSpeed: 12
-  turnSpeed: 180
   joyStick: {fileID: 745605993}
+  tankScriptableObject: {fileID: 11400000, guid: f39aad5a0eabf0048bb9b8cf2bce8b12,
+    type: 2}
 --- !u!4 &1564692193
 Transform:
   m_ObjectHideFlags: 0

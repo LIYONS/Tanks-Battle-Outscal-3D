@@ -365,8 +365,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b2ade2596e36e468a062033f9e2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  turnSpeed: 180
+  tankColours:
+  - tanktype: 1
+    material: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
+  - tanktype: 2
+    material: {fileID: 2100000, guid: c39933e60e73205419d1f79a2af1fdac, type: 2}
+  - tanktype: 3
+    material: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}
 --- !u!1 &1468254365418521102
 GameObject:
   m_ObjectHideFlags: 0

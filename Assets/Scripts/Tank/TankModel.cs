@@ -5,26 +5,18 @@ using UnityEngine;
 public class TankModel
 {
     TankController tankController;
-    float movementSpeed;
 
-    float turnSpeed;
+    TankScriptableObject tankObject;
 
-
-    public TankModel(float _movementSpeed, float _turnSpeed)
+    public TankModel(TankScriptableObject tankScriptableObject)
     {
-        movementSpeed = _movementSpeed;
-        turnSpeed = _turnSpeed;
+        this.tankObject = tankScriptableObject;
     }
 
-    public float GetMovementSpeed()
-    {
-        return movementSpeed;
-    }
+    public float GetMovementSpeed() { return tankObject.movementSpeed; }
 
-    public float GetTurnSpeed()
-    {
-        return turnSpeed;
-    }
+    public float GetTurnSpeed() { return tankObject.turnSpeed;}
+
     public void SetTankController(TankController _controller)
     {
         tankController = _controller;
