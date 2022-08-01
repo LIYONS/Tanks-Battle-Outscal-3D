@@ -1100,10 +1100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca43c42af475acf498fdb0e446f777f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankView: {fileID: 815928522208755525, guid: 29b8b1b331a772641bd3db89c149c4da, type: 3}
+  playerTankView: {fileID: 8590722740013278448, guid: 9729cdfdeb0cb6e44ae30e88c453c634,
+    type: 3}
   joyStick: {fileID: 745605993}
-  tankScriptableObject: {fileID: 11400000, guid: f39aad5a0eabf0048bb9b8cf2bce8b12,
-    type: 2}
+  playerObject: {fileID: 11400000, guid: f39aad5a0eabf0048bb9b8cf2bce8b12, type: 2}
+  enemyTankView: {fileID: 6413794110404587023, guid: dfc843c747b67954fb9e9bfea39c411f,
+    type: 3}
+  enemyTankCount: 0
+  enemyObjects: {fileID: 11400000, guid: 101e3f2a56a951d45ae0730937c1155f, type: 2}
 --- !u!4 &1564692193
 Transform:
   m_ObjectHideFlags: 0

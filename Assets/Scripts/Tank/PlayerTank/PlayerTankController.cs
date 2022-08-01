@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankController
+public class PlayerTankController
 {
-    TankModel tankModel;
+    PlayerTankModel tankModel;
 
-    TankView tankView;
+    PlayerTankView tankView;
 
     Rigidbody rb;
 
     float movementSpeed;
     float turnSpeed;
 
-    public TankController(TankModel _model)
+    public PlayerTankController(PlayerTankModel _model)
     {
         tankModel = _model;
         tankModel.SetTankController(this);
@@ -35,16 +35,16 @@ public class TankController
         rb.MoveRotation(rb.rotation * turnValue);
     }
 
-    public TankModel GetTankModel()
+    public PlayerTankModel GetTankModel()
     {
         return tankModel;
     }
-    public TankView GetTankView()
+    public PlayerTankView GetTankView()
     {
         return tankView;
     }
 
-    public void SetTankView(TankView _tankView)
+    public void SetTankView(PlayerTankView _tankView)
     {
         tankView = _tankView;
         rb = tankView.GetRigidBody();

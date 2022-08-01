@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankView : MonoBehaviour
+public class EnemyTankView : MonoBehaviour
 {
-    public TankController tankController;
-    Joystick joyStick;
+    EnemyTankController controller;
     TankScriptableObject tankObject;
 
     float movementInput;
@@ -16,33 +14,10 @@ public class TankView : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        tankController.SetTankView(this);
+        controller.SetTankView(this);
         SetColour();
     }
-    void FixedUpdate()
-    {
-        Move();
-        Turn();
-    }
 
-    private void Turn()
-    {
-        turnInput = joyStick.Horizontal;
-        if(turnInput!=0)
-        {
-            tankController.Rotate(turnInput);
-        }
-
-    }
-
-    private void Move()
-    {
-        movementInput = joyStick.Vertical;
-        if(movementInput!=0)
-        {
-            tankController.Movement(movementInput);
-        }
-    }
     void SetSize()
     {
         transform.localScale = new Vector3(tankObject.size, tankObject.size, transform.localScale.z);
@@ -52,36 +27,35 @@ public class TankView : MonoBehaviour
         Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
         Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
         Color color = Color.black;
-        switch(tankObject.tankType)
+        switch (tankObject.tankType)
         {
             case TankType.Red:
-            {
+                {
                     color = Color.red;
                     break;
-            }
+                }
             case TankType.Blue:
-            {
+                {
                     color = Color.blue;
                     break;
-            }
+                }
             case TankType.Green:
-            {
+                {
                     color = Color.green;
                     break;
 
-             }
+                }
         }
         tankTurret.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
         tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
 
     }
-    public void SetComponents(Joystick _joyStick,TankController _controller,TankScriptableObject _tank)
+
+    public void SetComponents( EnemyTankController _controller, TankScriptableObject _tank)
     {
-        joyStick = _joyStick;
-        tankController = _controller;
+        controller = _controller;
         tankObject = _tank;
     }
-
     public Rigidbody GetRigidBody()
     {
         return rb;

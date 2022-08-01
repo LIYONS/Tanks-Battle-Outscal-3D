@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankModel
+public class PlayerTankModel
 {
-    TankController tankController;
+    PlayerTankController tankController;
 
     TankScriptableObject tankObject;
 
-    public TankModel(TankScriptableObject tankScriptableObject)
+    public PlayerTankModel(TankScriptableObject tankScriptableObject)
     {
         this.tankObject = tankScriptableObject;
     }
@@ -17,7 +17,7 @@ public class TankModel
 
     public float GetTurnSpeed() { return tankObject.turnSpeed;}
 
-    public void SetTankController(TankController _controller)
+    public void SetTankController(PlayerTankController _controller)
     {
         tankController = _controller;
     }
