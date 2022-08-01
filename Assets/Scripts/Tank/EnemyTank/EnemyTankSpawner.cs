@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class EnemyTankSpawner : MonoBehaviour
 {
-    public EnemyTankView enemyTankView;
+    public EnemyTankView view;
     public TankList enemyObjects;
+    public int enemyCount;
+    public Transform[] wayPoints;
 
-    public Transform[] spawnPoints;
+
+    EnemyTankController controller;
+    EnemyTankModel model;
+    int scriptableObjectIndex;
     private void Start()
     {
         SpawnTank();
     }
-
-    void SpawnTank()
+    private void SpawnTank()
     {
-
-        for(int i=0;i<spawnPoints.Length;i++)
+        for(int i=0;i<enemyCount;i++)
         {
-            Transform tankTransform= CreateTank();
-            tankTransform.position = spawnPoints[i].position;
+            int point = Random.Range(0, wayPoints.Length);
+
+
+            scriptableObjectIndex = Random.Range(0, enemyObjects.tankList.Length);
+            EnemyTankModel model = new EnemyTankModel(enemyObjects.tankList[scriptableObjectIndex], wayPoints);
+
+            controller = new EnemyTankController(model);
+
+            view = Instantiate(view,wayPoints[point]);
+
+            view.SetComponents(controller, enemyObjects.tankList[scriptableObjectIndex]);
+            controller.SetTankView(view);
         }
     }
-
-    Transform CreateTank()
-    {
-        int index = Random.Range(0, enemyObjects.tankList.Length);
-        EnemyTankModel model = new EnemyTankModel(enemyObjects.tankList[index]);
-        EnemyTankController controller = new EnemyTankController(model);
-        enemyTankView = Instantiate(enemyTankView);
-        enemyTankView.SetComponents(controller, enemyObjects.tankList[index]);
-        controller.SetTankView(enemyTankView);
-        return enemyTankView.transform;
-    }
-
 }

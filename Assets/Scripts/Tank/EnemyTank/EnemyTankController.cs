@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyTankController
 {
@@ -8,11 +9,17 @@ public class EnemyTankController
 
     public EnemyTankView view;
 
-    Rigidbody rb;
+    //Patrol
+    Transform[] wayPoints;
+    NavMeshAgent agent;
+    int wayPointIndex=0;
+    Transform target;
+
 
     public EnemyTankController(EnemyTankModel _model)
     {
         this.model = _model;
+        wayPoints = model.GetWayPoints();
     }
 
     public EnemyTankModel GetTankModel()
@@ -27,6 +34,27 @@ public class EnemyTankController
     public void SetTankView(EnemyTankView _tankView)
     {
         view = _tankView;
-        rb = view.GetRigidBody();
+    }
+
+    void SetAgent()
+    {
+        agent = view.GetAgent();
+    }
+
+    public void Patrol()
+    {
+        IterateWayPointIndex();
+        SetAgent();
+        target = wayPoints[wayPointIndex];
+        agent.SetDestination(target.position);
+    }
+
+    void  IterateWayPointIndex()
+    {
+        wayPointIndex = Random.Range(0, wayPoints.Length);
+    }
+    public Transform GetCurrentTarget()
+    {
+        return target;
     }
 }

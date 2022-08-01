@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyTankView : MonoBehaviour
 {
     EnemyTankController controller;
     TankScriptableObject tankObject;
-
-    float movementInput;
-    float turnInput;
-    Rigidbody rb;
+    NavMeshAgent agent;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
         controller.SetTankView(this);
+        SetSize();
         SetColour();
+        controller.Patrol();
     }
-
+    private void FixedUpdate()
+    {
+        if(Vector3.Distance(transform.position,controller.GetCurrentTarget().position)<1)
+        {
+            controller.Patrol();
+        }
+    }
     void SetSize()
     {
         transform.localScale = new Vector3(tankObject.size, tankObject.size, transform.localScale.z);
@@ -56,8 +62,8 @@ public class EnemyTankView : MonoBehaviour
         controller = _controller;
         tankObject = _tank;
     }
-    public Rigidbody GetRigidBody()
+    public NavMeshAgent GetAgent()
     {
-        return rb;
+        return agent;
     }
 }

@@ -6,10 +6,13 @@ public class EnemyTankModel
 {
     TankScriptableObject tankObject;
 
+    Transform[] wayPoints;
+
     EnemyTankController controller;
-    public EnemyTankModel(TankScriptableObject tankScriptableObject)
+    public EnemyTankModel(TankScriptableObject tankScriptableObject,Transform[] _targetPoints)
     {
         this.tankObject = tankScriptableObject;
+        this.wayPoints = _targetPoints;
     }
 
     public float GetMovementSpeed() { return tankObject.movementSpeed; }
@@ -19,5 +22,10 @@ public class EnemyTankModel
     public void SetTankController(EnemyTankController _controller)
     {
         controller = _controller;
+    }
+
+    public Transform[] GetWayPoints()
+    {
+        return wayPoints;
     }
 }
