@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTankController : MonoBehaviour
+public class EnemyTankController
 {
     public EnemyTankModel model;
 
