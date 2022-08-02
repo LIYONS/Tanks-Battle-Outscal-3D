@@ -14,7 +14,6 @@ public class TankHealth : MonoBehaviour
     public GameObject explosionPrefab;
 
     private ParticleSystem explosionEffect;
-    private AudioSource explosionAudio;
     private bool isDead;
     public float sliderTimer;
     private bool isUiActive;
@@ -22,7 +21,6 @@ public class TankHealth : MonoBehaviour
     private void Awake()
     {
         explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
-        explosionAudio = explosionEffect.gameObject.GetComponent<AudioSource>();
         explosionEffect.gameObject.SetActive(false);
     }
 
@@ -39,7 +37,7 @@ public class TankHealth : MonoBehaviour
     {
         if(isUiActive && sliderTimer<Time.time)
         {
-            SetUiInactive();
+            SetInactive();
         }
     }
     private void SetHealthUI()
@@ -54,9 +52,9 @@ public class TankHealth : MonoBehaviour
         currentHealth -= amount;
         SetHealthUI();
         healthSlider.gameObject.SetActive(true);
+        explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
-        explosionAudio.Play();
         if(currentHealth<=0 && !isDead)
         {
             OnDeath();
@@ -69,8 +67,9 @@ public class TankHealth : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void SetUiInactive()
+    void SetInactive()
     {
         healthSlider.gameObject.SetActive(false);
+        explosionEffect.gameObject.SetActive(false);
     }
 }

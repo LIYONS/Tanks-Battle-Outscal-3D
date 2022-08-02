@@ -10240,7 +10240,7 @@ GameObject:
   - component: {fileID: 6413794110404587023}
   - component: {fileID: -3436188604809674520}
   - component: {fileID: 4146424982923277451}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: EnemyTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10317,7 +10317,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 7
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
