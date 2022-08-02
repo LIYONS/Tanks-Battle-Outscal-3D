@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerTankView : MonoBehaviour
 {
     public PlayerTankController tankController;
-    Joystick joyStick;
     TankScriptableObject tankObject;
 
     float movementInput;
@@ -27,7 +23,7 @@ public class PlayerTankView : MonoBehaviour
 
     private void Turn()
     {
-        turnInput = joyStick.Horizontal;
+        turnInput = Input.GetAxis("Horizontal");
         if(turnInput!=0)
         {
             tankController.Rotate(turnInput);
@@ -37,7 +33,7 @@ public class PlayerTankView : MonoBehaviour
 
     private void Move()
     {
-        movementInput = joyStick.Vertical;
+        movementInput = Input.GetAxis("Vertical");
         if(movementInput!=0)
         {
             tankController.Movement(movementInput);
@@ -75,9 +71,8 @@ public class PlayerTankView : MonoBehaviour
         tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
 
     }
-    public void SetComponents(Joystick _joyStick,PlayerTankController _controller,TankScriptableObject _tank)
+    public void SetComponents(PlayerTankController _controller,TankScriptableObject _tank)
     {
-        joyStick = _joyStick;
         tankController = _controller;
         tankObject = _tank;
     }

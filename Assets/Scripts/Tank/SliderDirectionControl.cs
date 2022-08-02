@@ -6,6 +6,6 @@ public class SliderDirectionControl : MonoBehaviour
 {
     private void Update()
     {
-        transform.localRotation = transform.parent.localRotation;
+        transform.rotation = transform.parent.rotation;
     }
 }

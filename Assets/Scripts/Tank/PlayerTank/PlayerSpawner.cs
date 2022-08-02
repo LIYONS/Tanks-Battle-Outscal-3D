@@ -5,10 +5,9 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     public PlayerTankView playerTankView;
-    public Joystick joyStick;
     public TankScriptableObject playerObject;
 
-    void Start()
+    void OnEnable()
     {
         CreatePlayerTank();      
     }
@@ -18,7 +17,7 @@ public class PlayerSpawner : MonoBehaviour
         PlayerTankModel playerTankModel = new PlayerTankModel(playerObject);
         PlayerTankController playerTankController = new PlayerTankController(playerTankModel);
         playerTankView = Instantiate(playerTankView);
-        playerTankView.SetComponents(joyStick, playerTankController, playerObject);
+        playerTankView.SetComponents(playerTankController, playerObject);
         playerTankController.SetTankView(playerTankView);
     }
 }
