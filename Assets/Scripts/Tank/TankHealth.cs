@@ -16,6 +16,7 @@ public class TankHealth : MonoBehaviour
     private ParticleSystem explosionEffect;
     private bool isDead;
     public float sliderTimer;
+    public float sliderActiveTime;
     private bool isUiActive;
 
     private void Awake()
@@ -51,10 +52,9 @@ public class TankHealth : MonoBehaviour
     {
         currentHealth -= amount;
         SetHealthUI();
+        isUiActive = true;
+        sliderTimer = Time.time + sliderActiveTime;
         healthSlider.gameObject.SetActive(true);
-        explosionEffect.gameObject.SetActive(true);
-        explosionEffect.gameObject.transform.position = transform.position;
-        explosionEffect.Play();
         if(currentHealth<=0 && !isDead)
         {
             OnDeath();
@@ -64,11 +64,15 @@ public class TankHealth : MonoBehaviour
     private void OnDeath()
     {
         isDead = true;
+        explosionEffect.gameObject.SetActive(true);
+        explosionEffect.gameObject.transform.position = transform.position;
+        explosionEffect.Play();
         gameObject.SetActive(false);
     }
 
     void SetInactive()
     {
+        isUiActive = false;
         healthSlider.gameObject.SetActive(false);
         explosionEffect.gameObject.SetActive(false);
     }
