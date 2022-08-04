@@ -8,10 +8,7 @@ public class BulletMovement : MonoBehaviour
     public Rigidbody shell;
     public Slider aimSlider;
     public Transform fireTransform;
-    public float maxChargeTime=.75f;
-    public float minLaunchForce = 15f;
-    public float maxLaunchForce = 30f;
-    public float nextFireDelay;
+    public BulletScriptableObject bulletObject;
 
     float chargingSpeed;
     float fireTimer;
@@ -20,24 +17,29 @@ public class BulletMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        currentLaunchForce = minLaunchForce;
+        currentLaunchForce =bulletObject.minLaunchForce;
         aimSlider.value = currentLaunchForce;
     }
     private void Start()
     {
         fireTimer = 0;
-        chargingSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
+        chargingSpeed = (bulletObject.maxLaunchForce - bulletObject.minLaunchForce) / bulletObject.maxChargeTime;
     }
 
 
     private void Update()
     {
         aimSlider.value = currentLaunchForce;
-        if(fireTimer<Time.time)
+        FireCheck();
+        
+    }
+    void FireCheck()
+    {
+        if (fireTimer < Time.time)
         {
-            if (currentLaunchForce > maxLaunchForce)
+            if (currentLaunchForce > bulletObject.maxLaunchForce)
             {
-                currentLaunchForce = maxLaunchForce;
+                currentLaunchForce = bulletObject.maxLaunchForce;
                 Fire();
             }
             if (Input.GetKey(KeyCode.Mouse0))
@@ -48,14 +50,15 @@ public class BulletMovement : MonoBehaviour
             {
                 Fire();
             }
-        } 
+        }
     }
  
     void Fire()
     {
-        fireTimer = Time.time + nextFireDelay;
-        Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation) as Rigidbody;
+        fireTimer = Time.time + bulletObject.nextFireDelay;
+        Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
+        shellInstance.GetComponent<BulletExplosion>().SetBulletObject(bulletObject);
         shellInstance.velocity = currentLaunchForce * fireTransform.forward;
-        currentLaunchForce = minLaunchForce;
+        currentLaunchForce = bulletObject.minLaunchForce;
     }
 }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3090308d29ff1a4187dd87c48415f2e, type: 3}
   m_Name: SmallFastTank
   m_EditorClassIdentifier: 
-  tankType: 2
-  size: 0.7
+  tankTurretColor: {r: 0.5487652, g: 0, b: 1, a: 0}
+  tankChassisColor: {r: 0.54901963, g: 0, b: 1, a: 0}
+  size: 0.8
   movementSpeed: 15
   turnSpeed: 180

@@ -8,10 +8,7 @@ public class EnemyTankSpawner : MonoBehaviour
     public TankList enemyObjects;
     public int enemyCount;
     public Transform[] wayPoints;
-
-
     EnemyTankController controller;
-    EnemyTankModel model;
     int scriptableObjectIndex;
     private void Start()
     {
@@ -19,17 +16,20 @@ public class EnemyTankSpawner : MonoBehaviour
     }
     private void SpawnTank()
     {
-        for(int i=0;i<enemyCount;i++)
+        for(int i=0,point=0;i<enemyCount;i++,point++)
         {
-            int point = Random.Range(0, wayPoints.Length);
-
-
+            if(point==wayPoints.Length)
+            {
+                point = 0;
+            }
             scriptableObjectIndex = Random.Range(0, enemyObjects.tankList.Length);
             EnemyTankModel model = new EnemyTankModel(enemyObjects.tankList[scriptableObjectIndex], wayPoints);
 
             controller = new EnemyTankController(model);
 
-            view = Instantiate(view,wayPoints[point]);
+            view = GameObject.Instantiate(view);
+            view.transform.parent =null;
+            view.transform.position = wayPoints[point].position;
 
             view.SetComponents(controller, enemyObjects.tankList[scriptableObjectIndex]);
             controller.SetTankView(view);

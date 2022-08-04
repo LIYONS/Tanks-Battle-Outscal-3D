@@ -5,20 +5,17 @@ using UnityEngine;
 public class BulletExplosion : MonoBehaviour
 {
     public LayerMask tankLayer;
-    public float maxDamage;
-    public float explosionRadius;
-    public float explosionForce;
-    public float maxLifeTime;
-
     public ParticleSystem shellExplosionParticle;
+
+    BulletScriptableObject bulletObject;
 
     private void Start()
     {
-        Destroy(gameObject, maxLifeTime);
+        Destroy(gameObject, bulletObject.maxLifeTime);
     }
     private void OnTriggerEnter(Collider other)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, bulletObject.explosionRadius, tankLayer);
         for(int i=0;i<colliders.Length;i++)
         {
             Rigidbody rb = colliders[i].GetComponent<Rigidbody>();
@@ -26,7 +23,7 @@ public class BulletExplosion : MonoBehaviour
             {
                 continue;
             }
-            rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            rb.AddExplosionForce(bulletObject.explosionForce, transform.position, bulletObject.explosionRadius);
 
             TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
             if(!tankHealth)
@@ -51,13 +48,16 @@ public class BulletExplosion : MonoBehaviour
 
         float explosionMagnitude = explosionToTarget.magnitude;
 
-        float relativeDamage = (explosionRadius - explosionMagnitude) / explosionRadius;
+        float relativeDamage = (bulletObject.explosionRadius - explosionMagnitude) / bulletObject.explosionRadius;
 
-        float damage = relativeDamage * maxDamage;
+        float damage = relativeDamage * bulletObject.maxDamage;
 
         damage = Mathf.Max(0, damage);
         return damage;
     }
 
-
+    public void SetBulletObject(BulletScriptableObject _object)
+    {
+        bulletObject = _object;
+    }
 }
