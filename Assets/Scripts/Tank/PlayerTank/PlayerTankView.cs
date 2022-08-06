@@ -39,36 +39,12 @@ public class PlayerTankView : MonoBehaviour
             tankController.Movement(movementInput);
         }
     }
-    void SetSize()
-    {
-        transform.localScale = new Vector3(tankObject.size, tankObject.size, transform.localScale.z);
-    }
     void SetColour()
     {
         Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
         Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
-        Color color = Color.black;
-        switch(tankObject.tankType)
-        {
-            case TankType.Red:
-            {
-                    color = Color.red;
-                    break;
-            }
-            case TankType.Blue:
-            {
-                    color = Color.blue;
-                    break;
-            }
-            case TankType.Green:
-            {
-                    color = Color.green;
-                    break;
-
-             }
-        }
-        tankTurret.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
-        tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+        tankTurret.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", tankObject.tankTurretColor);
+        tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", tankObject.tankChassisColor);
 
     }
     public void SetComponents(PlayerTankController _controller,TankScriptableObject _tank)

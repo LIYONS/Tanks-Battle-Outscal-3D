@@ -51,7 +51,13 @@ public class EnemyTankController
 
     void  IterateWayPointIndex()
     {
-        wayPointIndex = Random.Range(0, wayPoints.Length);
+        int temp=0;
+        do
+        {
+            temp = Random.Range(0, wayPoints.Length);
+        }
+        while (temp == wayPointIndex);
+        wayPointIndex = temp;
     }
     public Transform GetCurrentTarget()
     {
