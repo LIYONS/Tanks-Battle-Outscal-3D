@@ -27,9 +27,7 @@ public class EnemyTankSpawner : MonoBehaviour
 
             controller = new EnemyTankController(model);
 
-            view = GameObject.Instantiate(view);
-            view.transform.parent =null;
-            view.transform.position = wayPoints[point].position;
+            view = GameObject.Instantiate(view,wayPoints[point].position,wayPoints[point].rotation);
 
             view.SetComponents(controller, enemyObjects.tankList[scriptableObjectIndex]);
             controller.SetTankView(view);
