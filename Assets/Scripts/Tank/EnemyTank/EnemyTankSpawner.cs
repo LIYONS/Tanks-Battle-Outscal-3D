@@ -8,8 +8,10 @@ public class EnemyTankSpawner : MonoBehaviour
     public TankList enemyObjects;
     public int enemyCount;
     public Transform[] wayPoints;
-    EnemyTankController controller;
-    int scriptableObjectIndex;
+
+
+    private EnemyTankController controller;
+    private int scriptableObjectIndex;
     private void Start()
     {
         SpawnTank();

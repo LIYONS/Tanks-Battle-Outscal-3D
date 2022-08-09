@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public PlayerTankView playerTankView;
-    public TankScriptableObject playerObject;
+    [SerializeField] PlayerTankView playerTankView;
+    [SerializeField] TankScriptableObject playerObject;
 
-    void OnEnable()
+    void Awake()
     {
         CreatePlayerTank();      
     }
@@ -17,7 +17,7 @@ public class PlayerSpawner : MonoBehaviour
         PlayerTankModel playerTankModel = new PlayerTankModel(playerObject);
         PlayerTankController playerTankController = new PlayerTankController(playerTankModel);
         playerTankView = Instantiate(playerTankView);
-        playerTankView.SetComponents(playerTankController, playerObject);
+        playerTankView.SetComponents(playerTankController);
         playerTankController.SetTankView(playerTankView);
     }
 }

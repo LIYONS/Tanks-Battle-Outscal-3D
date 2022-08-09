@@ -1,26 +1,36 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerTankView : MonoBehaviour
 {
-    public PlayerTankController tankController;
-    TankScriptableObject tankObject;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image healthSliderFillImage;
+    [SerializeField] private Color healthStartColor = Color.green;
+    [SerializeField] private Color healthDamageColor = Color.red;
+    [SerializeField] private GameObject explosionPrefab;
 
-    float movementInput;
-    float turnInput;
-    Rigidbody rb;
+    private ParticleSystem explosionEffect;
+    private PlayerTankController tankController;
+    private TankScriptableObject tankObject;
+    private float movementInput;
+    private float turnInput;
 
+    private void Awake()
+    {
+        explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
+        explosionEffect.gameObject.SetActive(false);
+    }
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        tankController.SetTankView(this);
+        SetTankObject();
         SetColour();
+        SetHealthUI(tankObject.maxHealth);
     }
     void FixedUpdate()
     {
         Move();
         Turn();
     }
-
     private void Turn()
     {
         turnInput = Input.GetAxis("Horizontal");
@@ -28,9 +38,11 @@ public class PlayerTankView : MonoBehaviour
         {
             tankController.Rotate(turnInput);
         }
-
     }
-
+    public void TakeDamage(float amount)
+    {
+        tankController.TakeDamage(amount);
+    }
     private void Move()
     {
         movementInput = Input.GetAxis("Vertical");
@@ -47,14 +59,40 @@ public class PlayerTankView : MonoBehaviour
         tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", tankObject.tankChassisColor);
 
     }
-    public void SetComponents(PlayerTankController _controller,TankScriptableObject _tank)
+    public void SetHealthUI(float _health)
     {
-        tankController = _controller;
-        tankObject = _tank;
+        healthSlider.gameObject.SetActive(true);
+        healthSlider.value = _health;
+        healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health /tankObject.maxHealth);
+        Invoke("SetUiInactive", tankObject.healthSliderTimer);
     }
 
+    void SetUiInactive()
+    {
+        healthSlider.gameObject.SetActive(false);
+        explosionEffect.gameObject.SetActive(false);
+    }
+    public void OnDeath()
+    {
+        explosionEffect.gameObject.SetActive(true);
+        explosionEffect.gameObject.transform.position = transform.position;
+        explosionEffect.Play();
+    }
+    public void SetComponents(PlayerTankController _controller)
+    {
+        tankController = _controller;
+    }
+    void SetTankObject()
+    {
+        tankObject = tankController.GetTankModel().GetTankObject();
+    }
     public Rigidbody GetRigidBody()
     {
-        return rb;
+        return GetComponent<Rigidbody>();
+    }
+
+    public TankScriptableObject GetTankObject()
+    {
+        return tankObject;
     }
 }

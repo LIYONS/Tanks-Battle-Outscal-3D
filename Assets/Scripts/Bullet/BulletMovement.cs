@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class BulletMovement : MonoBehaviour
 {
-    public Rigidbody shell;
-    public Slider aimSlider;
-    public Transform fireTransform;
-    public BulletScriptableObject bulletObject;
-
-    float chargingSpeed;
-    float fireTimer;
-    float currentLaunchForce;
+    [SerializeField] private Rigidbody shell;
+    [SerializeField] private Slider aimSlider;
+    [SerializeField] private Transform fireTransform;
+    [SerializeField] private BulletScriptableObject bulletObject;
+    private float chargingSpeed;
+    private float fireTimer;
+    private float currentLaunchForce;
     
 
     private void OnEnable()
@@ -31,7 +30,6 @@ public class BulletMovement : MonoBehaviour
     {
         aimSlider.value = currentLaunchForce;
         FireCheck();
-        
     }
     void FireCheck()
     {

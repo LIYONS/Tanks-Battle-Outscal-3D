@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    GameObject target;
+    private GameObject target;
 
-    public Vector3 offSet;
+    [SerializeField] private Vector3 offSet;
 
-    public float smoothSpeed;
+    [SerializeField] private float smoothSpeed;
 
     private void Start()
     {
@@ -16,10 +16,9 @@ public class FollowPlayer : MonoBehaviour
         if (target)
         {
             transform.position = target.transform.position + offSet;
-
         }
     }
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (target)
         {

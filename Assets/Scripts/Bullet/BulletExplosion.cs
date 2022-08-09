@@ -7,7 +7,7 @@ public class BulletExplosion : MonoBehaviour
     public LayerMask tankLayer;
     public ParticleSystem shellExplosionParticle;
 
-    BulletScriptableObject bulletObject;
+    private BulletScriptableObject bulletObject;
 
     private void Start()
     {
@@ -25,13 +25,18 @@ public class BulletExplosion : MonoBehaviour
             }
             rb.AddExplosionForce(bulletObject.explosionForce, transform.position, bulletObject.explosionRadius);
 
-            TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
-            if(!tankHealth)
+            if(rb.gameObject.tag=="Player")
             {
-                continue;
+                PlayerTankView playerTankView = colliders[i].gameObject.GetComponent<PlayerTankView>();
+                playerTankView.TakeDamage(CalculateDamage(rb.position));
             }
-            float damage = CalculateDamage(rb.position);
-            tankHealth.TakeDamage(damage);
+            EnemyTankView enemyTankView = colliders[i].GetComponent<EnemyTankView>();
+            if(enemyTankView)
+            {
+                float damage = CalculateDamage(rb.position);
+                enemyTankView.TakeDamage(damage);
+            }
+            
         }
         shellExplosionParticle.transform.parent = null;
 
