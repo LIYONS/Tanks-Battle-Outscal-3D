@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyTankModel
 {
-    TankScriptableObject tankObject;
+    private TankScriptableObject tankObject;
 
-    Transform[] wayPoints;
+    private Transform[] wayPoints;
 
     EnemyTankController controller;
     public EnemyTankModel(TankScriptableObject tankScriptableObject,Transform[] _targetPoints)
@@ -15,10 +15,10 @@ public class EnemyTankModel
         this.wayPoints = _targetPoints;
     }
 
-    public float GetMovementSpeed() { return tankObject.movementSpeed; }
-
-    public float GetTurnSpeed() { return tankObject.turnSpeed; }
-
+    public TankScriptableObject GetTankObject()
+    {
+        return tankObject;
+    }
     public void SetTankController(EnemyTankController _controller)
     {
         controller = _controller;

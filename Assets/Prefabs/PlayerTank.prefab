@@ -10472,7 +10472,6 @@ GameObject:
   - component: {fileID: 3387819827402079090}
   - component: {fileID: 1171600093949754282}
   - component: {fileID: 8590722740013278448}
-  - component: {fileID: 1541791092208265884}
   - component: {fileID: 940822028456329274}
   - component: {fileID: 2025790820249260341}
   m_Layer: 12
@@ -10543,28 +10542,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b2ade2596e36e468a062033f9e2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
---- !u!114 &1541791092208265884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387819827402046588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d530229053a2f6243b4fc1373278520e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   healthSlider: {fileID: 1584084835}
-  fillImage: {fileID: 1544084350}
-  startColor: {r: 0, g: 1, b: 0, a: 1}
-  damageColor: {r: 1, g: 0, b: 0, a: 1}
-  maxHealth: 100
+  healthSliderFillImage: {fileID: 1544084350}
+  healthStartColor: {r: 0, g: 1, b: 0, a: 1}
+  healthDamageColor: {r: 1, g: 0, b: 0, a: 1}
   explosionPrefab: {fileID: 151086, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
-  slowMotionFactor: 0.05
-  slowMotionLength: 2
-  sliderTimer: 2
 --- !u!114 &940822028456329274
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,4 +16,6 @@ public class TankScriptableObject : ScriptableObject
     public float size;
     public float movementSpeed;
     public float turnSpeed;
+    public float maxHealth = 100f;
+    public float healthSliderTimer = 2f;
 }

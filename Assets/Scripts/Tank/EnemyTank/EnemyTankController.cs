@@ -1,44 +1,66 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyTankController
 {
-    public EnemyTankModel model;
+    public EnemyTankModel tankModel;
 
-    public EnemyTankView view;
+    public EnemyTankView tankView;
 
     //Patrol
-    Transform[] wayPoints;
-    NavMeshAgent agent;
-    int wayPointIndex=0;
-    Transform target;
+    private Transform[] wayPoints;
+    private NavMeshAgent agent;
+    private int wayPointIndex =0;
+    private Transform target;
 
-
+    private TankScriptableObject tankObject;
+    private float currentHealth;
+    private bool isDead;
     public EnemyTankController(EnemyTankModel _model)
     {
-        this.model = _model;
-        wayPoints = model.GetWayPoints();
+        this.tankModel = _model;
+        tankObject = tankModel.GetTankObject();
+        wayPoints = tankModel.GetWayPoints();
+        currentHealth = tankObject.maxHealth;
+        isDead = false;
+    }
+    public void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        tankView.SetHealthUI(currentHealth);
+        if (currentHealth <= 0 && !isDead)
+        {
+            isDead = true;
+            OnDeath();
+        }
+    }
+    private void OnDeath()
+    {
+        tankView.OnDeath();
+        tankView.gameObject.SetActive(false);
     }
 
     public EnemyTankModel GetTankModel()
     {
-        return model;
+        return tankModel;
     }
     public EnemyTankView GetTankView()
     {
-        return view;
+        return tankView;
     }
 
     public void SetTankView(EnemyTankView _tankView)
     {
-        view = _tankView;
+        tankView = _tankView;
     }
 
     void SetAgent()
     {
-        agent = view.GetAgent();
+        agent = tankView.GetAgent();
     }
 
     public void Patrol()
@@ -54,7 +76,7 @@ public class EnemyTankController
         int temp=0;
         do
         {
-            temp = Random.Range(0, wayPoints.Length);
+            temp = UnityEngine.Random.Range(0, wayPoints.Length);
         }
         while (temp == wayPointIndex);
         wayPointIndex = temp;

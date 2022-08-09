@@ -13,6 +13,7 @@ public class MonoSingletonGeneric<T> : MonoBehaviour where T:MonoSingletonGeneri
         if(!instance)
         {
             instance =(T) this;
+            DontDestroyOnLoad((T)this);
         }
         else
         {
