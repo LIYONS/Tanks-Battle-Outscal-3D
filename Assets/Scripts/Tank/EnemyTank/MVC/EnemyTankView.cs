@@ -11,12 +11,12 @@ public class EnemyTankView : MonoBehaviour
     [SerializeField] private Color healthStartColor = Color.green;
     [SerializeField] private Color healthDamageColor = Color.red;
     [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private TankState defualtState;
+    [SerializeField] private TankState defaultState;
 
     private ParticleSystem explosionEffect;
+    private Transform[] wayPoints;
     private EnemyTankController controller;
     private TankScriptableObject tankObject;
-    private NavMeshAgent agent;
     private TankState currentState;
     
 
@@ -27,21 +27,12 @@ public class EnemyTankView : MonoBehaviour
     }
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         controller.SetTankView(this);
         SetSize();
         SetColour();
         SetHealthUI(tankObject.maxHealth);
-        controller.Patrol();
-        currentState = defualtState;
+        currentState = defaultState;
         currentState.OnEnterState();
-    }
-    private void FixedUpdate()
-    {
-        if(Vector3.Distance(transform.position,controller.GetCurrentTarget().position)<2f)
-        {
-            controller.Patrol();
-        }
     }
     public void TakeDamage(float amount)
     {
@@ -83,16 +74,16 @@ public class EnemyTankView : MonoBehaviour
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
     }
-    public void SetComponents( EnemyTankController _controller, TankScriptableObject _tank)
+    public void SetComponents( EnemyTankController _controller, TankScriptableObject _tank, Transform[] _points)
     {
         controller = _controller;
         tankObject = _tank;
+        wayPoints = _points;
     }
-    public NavMeshAgent GetAgent()
+    public Transform[] GetWayPoints() 
     {
-        return agent;
+        return wayPoints;  
     }
-
     public Rigidbody GetRigidbody()
     {
         return GetComponent<Rigidbody>();

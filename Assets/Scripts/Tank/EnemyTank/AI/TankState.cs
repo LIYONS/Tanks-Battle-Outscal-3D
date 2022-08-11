@@ -20,5 +20,4 @@ public abstract class TankState : MonoBehaviour
     {
         this.enabled = false;
     }
-    public virtual void Tick() { }
 }

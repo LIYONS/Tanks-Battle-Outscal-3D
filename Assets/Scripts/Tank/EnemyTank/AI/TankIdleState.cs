@@ -9,7 +9,7 @@ public class TankIdleState : TankState
     public override void OnEnterState()
     {
         base.OnEnterState();
-        idleTime = Random.Range(0, 10);
+        idleTime = Random.Range(0,5);
     }
 
     public override void OnExitState()
@@ -19,12 +19,8 @@ public class TankIdleState : TankState
     }
     private void Update()
     {
-        Tick();
-    }
-    public override void Tick()
-    {
         timeElapsed += Time.deltaTime;
-        if(timeElapsed>idleTime)
+        if (timeElapsed > idleTime)
         {
             tankView.ChangeState(GetComponent<TankPatrolState>());
         }

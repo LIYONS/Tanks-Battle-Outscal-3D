@@ -3,19 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyTankController
 {
     public EnemyTankModel tankModel;
 
     public EnemyTankView tankView;
-
-    //Patrol
-    private Transform[] wayPoints;
-    private NavMeshAgent agent;
-    private int wayPointIndex =0;
-    private Transform target;
 
     private TankScriptableObject tankObject;
     private float currentHealth;
@@ -24,7 +17,6 @@ public class EnemyTankController
     {
         this.tankModel = _model;
         tankObject = tankModel.GetTankObject();
-        wayPoints = tankModel.GetWayPoints();
         currentHealth = tankObject.maxHealth;
         isDead = false;
     }
@@ -56,33 +48,5 @@ public class EnemyTankController
     public void SetTankView(EnemyTankView _tankView)
     {
         tankView = _tankView;
-    }
-
-    void SetAgent()
-    {
-        agent = tankView.GetAgent();
-    }
-
-    public void Patrol()
-    {
-        IterateWayPointIndex();
-        SetAgent();
-        target = wayPoints[wayPointIndex];
-        agent.SetDestination(target.position);
-    }
-
-    void  IterateWayPointIndex()
-    {
-        int temp=0;
-        do
-        {
-            temp = UnityEngine.Random.Range(0, wayPoints.Length);
-        }
-        while (temp == wayPointIndex);
-        wayPointIndex = temp;
-    }
-    public Transform GetCurrentTarget()
-    {
-        return target;
     }
 }

@@ -15,9 +15,5 @@ public class TankChaseState : TankState
     }
     private void Update()
     {
-        Tick();
-    }
-    public override void Tick()
-    {
     }
 }
