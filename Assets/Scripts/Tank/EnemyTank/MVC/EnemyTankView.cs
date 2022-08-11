@@ -5,17 +5,20 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyTankView : MonoBehaviour
-{
+{          
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthSliderFillImage;
     [SerializeField] private Color healthStartColor = Color.green;
     [SerializeField] private Color healthDamageColor = Color.red;
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private TankState defualtState;
 
     private ParticleSystem explosionEffect;
     private EnemyTankController controller;
     private TankScriptableObject tankObject;
     private NavMeshAgent agent;
+    private TankState currentState;
+    
 
     private void Awake()
     {
@@ -30,6 +33,8 @@ public class EnemyTankView : MonoBehaviour
         SetColour();
         SetHealthUI(tankObject.maxHealth);
         controller.Patrol();
+        currentState = defualtState;
+        currentState.OnEnterState();
     }
     private void FixedUpdate()
     {
@@ -61,6 +66,12 @@ public class EnemyTankView : MonoBehaviour
         Invoke("SetUiInactive", tankObject.healthSliderTimer);
     }
 
+    public void ChangeState(TankState newState)
+    {
+        currentState.OnExitState();
+        newState.OnEnterState();
+        currentState = newState;
+    }
     void SetUiInactive()
     {
         healthSlider.gameObject.SetActive(false);
