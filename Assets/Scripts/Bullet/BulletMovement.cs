@@ -13,24 +13,21 @@ public class BulletMovement : MonoBehaviour
     private float fireTimer;
     private float currentLaunchForce;
     bool fired;
-    
 
-    private void OnEnable()
-    {
-        currentLaunchForce =bulletObject.minLaunchForce;
-        aimSlider.value = currentLaunchForce;
-        fired = false;
-    }
     private void Start()
     {
+        currentLaunchForce = bulletObject.minLaunchForce;
+
+        aimSlider.value = currentLaunchForce;
+        fired = false;
         fireTimer = 0;
         chargingSpeed = (bulletObject.maxLaunchForce - bulletObject.minLaunchForce) / bulletObject.maxChargeTime;
     }
 
 
-    private void FixedUpdate()
+    private void Update()
     {
-        aimSlider.value = currentLaunchForce;
+        aimSlider.value = bulletObject.minLaunchForce;
         FireCheck();
     }
     void FireCheck()
@@ -45,10 +42,12 @@ public class BulletMovement : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 fired = false;
+                currentLaunchForce = bulletObject.minLaunchForce;
             }
             else if (Input.GetKey(KeyCode.Mouse0))
             {
                 currentLaunchForce += chargingSpeed * Time.deltaTime;
+                aimSlider.value = currentLaunchForce;
             }
             else if (Input.GetKeyUp(KeyCode.Mouse0) && !fired)
             {

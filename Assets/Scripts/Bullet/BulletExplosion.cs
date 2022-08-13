@@ -25,6 +25,7 @@ public class BulletExplosion : MonoBehaviour
             }
             rb.AddExplosionForce(bulletObject.explosionForce, transform.position, bulletObject.explosionRadius);
 
+
             if(rb.gameObject.tag=="Player")
             {
                 PlayerTankView playerTankView = colliders[i].gameObject.GetComponent<PlayerTankView>();
@@ -36,15 +37,11 @@ public class BulletExplosion : MonoBehaviour
                 float damage = CalculateDamage(rb.position);
                 enemyTankView.TakeDamage(damage);
             }
-            
         }
         shellExplosionParticle.transform.parent = null;
-
         shellExplosionParticle.Play();
-
         Destroy(shellExplosionParticle.gameObject, shellExplosionParticle.main.duration);
         Destroy(gameObject);
-
     }
 
     float CalculateDamage(Vector3 targetPosition)

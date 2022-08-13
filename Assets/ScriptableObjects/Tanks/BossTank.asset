@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3090308d29ff1a4187dd87c48415f2e, type: 3}
   m_Name: BossTank
   m_EditorClassIdentifier: 
-  tankTurretColor: {r: 1, g: 0, b: 0, a: 0}
-  tankChassisColor: {r: 1, g: 0, b: 0, a: 0}
-  size: 1.3
+  tankColor: {r: 0, g: 0.47058824, b: 0, a: 1}
   movementSpeed: 15
   turnSpeed: 180
+  maxHealth: 100
+  healthSliderTimer: 2

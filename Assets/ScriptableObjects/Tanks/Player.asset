@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3090308d29ff1a4187dd87c48415f2e, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  tankTurretColor: {r: 1, g: 0, b: 0, a: 0}
-  tankChassisColor: {r: 0, g: 0, b: 0, a: 0}
-  size: 1
+  tankColor: {r: 1, g: 0, b: 0, a: 0}
   movementSpeed: 12
   turnSpeed: 180
+  maxHealth: 100
+  healthSliderTimer: 2
