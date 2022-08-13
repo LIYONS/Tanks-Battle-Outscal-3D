@@ -84,8 +84,5 @@ public class EnemyTankView : MonoBehaviour
     {
         return wayPoints;  
     }
-    public Rigidbody GetRigidbody()
-    {
-        return GetComponent<Rigidbody>();
-    }
+    public Rigidbody GetRigidbody { get { return GetComponent<Rigidbody>(); } }
 }

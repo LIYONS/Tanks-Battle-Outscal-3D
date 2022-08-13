@@ -35,16 +35,6 @@ public class EnemyTankController
         tankView.OnDeath();
         tankView.gameObject.SetActive(false);
     }
-
-    public EnemyTankModel GetTankModel()
-    {
-        return tankModel;
-    }
-    public EnemyTankView GetTankView()
-    {
-        return tankView;
-    }
-
     public void SetTankView(EnemyTankView _tankView)
     {
         tankView = _tankView;

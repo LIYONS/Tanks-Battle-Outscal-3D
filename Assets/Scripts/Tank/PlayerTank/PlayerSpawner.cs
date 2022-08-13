@@ -6,7 +6,6 @@ public class PlayerSpawner : MonoBehaviour
 {
     [SerializeField] PlayerTankView playerTankView;
     [SerializeField] TankScriptableObject playerObject;
-
     void Awake()
     {
         CreatePlayerTank();      
