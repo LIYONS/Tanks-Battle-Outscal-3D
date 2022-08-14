@@ -13,6 +13,5 @@ public class BulletScriptableObject : ScriptableObject
     public float nextFireDelay;
     public float maxDamage;
     public float explosionRadius;
-    public float explosionForce;
     public float maxLifeTime;
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38236d59135cb6e4a93591c820d4381c, type: 3}
-  m_Name: PlayerBullet
+  m_Name: Bullet
   m_EditorClassIdentifier: 
   color: 0
   maxChargeTime: 0.75

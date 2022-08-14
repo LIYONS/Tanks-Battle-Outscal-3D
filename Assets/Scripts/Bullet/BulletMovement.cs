@@ -62,7 +62,7 @@ public class BulletMovement : MonoBehaviour
         fireTimer = Time.time + bulletObject.nextFireDelay;
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
         shellInstance.velocity = currentLaunchForce * fireTransform.forward;
-        shellInstance.GetComponent<BulletExplosion>().SetBulletObject(bulletObject);
+        shellInstance.GetComponent<BulletExplosion>().SetComponents(bulletObject,this.gameObject);
         currentLaunchForce = bulletObject.minLaunchForce;
     }
 }
