@@ -55,9 +55,8 @@ public class PlayerTankView : MonoBehaviour
     {
         Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
         Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
-        tankTurret.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", tankObject.tankTurretColor);
-        tankChassis.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", tankObject.tankChassisColor);
-
+        tankTurret.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
+        tankChassis.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
     }
     public void SetHealthUI(float _health)
     {
