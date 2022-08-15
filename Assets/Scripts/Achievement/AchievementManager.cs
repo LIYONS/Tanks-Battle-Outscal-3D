@@ -31,22 +31,37 @@ public class AchievementManager : MonoBehaviour
 
     private void CheckForAchievement()
     {
-        if(bulletCount==10 && !FindAchievementObject(AchievementType.RisingStorm).isAchieved)
+        AchievementScriptableObject achievementObject=null;
+        if (achievementList.List !=null)
         {
-            ShowAchievementUi(FindAchievementObject(AchievementType.RisingStorm));
-            return;
+            if(bulletCount==10)
+            {
+                achievementObject= UnlockAchievement(AchievementType.RisingStorm);
+            }
+            else if(bulletCount==25)
+            {
+                achievementObject = UnlockAchievement(AchievementType.Veteran);
+            }
+            else if(bulletCount==50)
+            {
+                achievementObject = UnlockAchievement(AchievementType.WarLord);
+            }
         }
+        if(achievementObject!=null)
+        {
+            ShowAchievementUi(achievementObject);
+        }
+    }
+    private AchievementScriptableObject UnlockAchievement(AchievementType _type)
+    {
+        AchievementScriptableObject achievementObject = FindAchievementObject(_type);
+        if (achievementObject)
+        {
+            achievementObject.isAchieved = true;
+            return achievementObject;
 
-        else if(bulletCount==25 && !FindAchievementObject(AchievementType.Veteran).isAchieved)
-        {
-            ShowAchievementUi(FindAchievementObject(AchievementType.Veteran));
-            return;
         }
-        else if (bulletCount == 25 && !FindAchievementObject(AchievementType.WarLord).isAchieved)
-        {
-            ShowAchievementUi(FindAchievementObject(AchievementType.WarLord));
-            return;
-        }
+        return null;
     }
     private void ShowAchievementUi(AchievementScriptableObject achievement)
     {
@@ -57,14 +72,7 @@ public class AchievementManager : MonoBehaviour
     }
     private AchievementScriptableObject FindAchievementObject(AchievementType _type)
     {
-        for(int i=0;i<achievementList.List.Count;i++)
-        {
-            if(achievementList.List[i].type==_type)
-            {
-                return achievementList.List[i].achievementObject;
-            }
-        }
-        return null;
+        return achievementList.List.Find(ach => ach.type == _type);
     }
     private void DeactivateUi()
     {

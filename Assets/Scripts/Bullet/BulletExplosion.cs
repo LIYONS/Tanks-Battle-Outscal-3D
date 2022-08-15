@@ -48,6 +48,7 @@ public class BulletExplosion : MonoBehaviour
         shellExplosionParticle.transform.parent = null;
         shellExplosionParticle.Play();
         Destroy(shellExplosionParticle.gameObject, shellExplosionParticle.main.duration);
+        Destroy(gameObject);
     }
     float CalculateDamage(Vector3 targetPosition)
     {
