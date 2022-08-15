@@ -6,7 +6,7 @@ using TMPro;
 public class ScoreUpdate : MonoBehaviour
 {
     [SerializeField] private int scoreForKill;
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     private int totalScore;
     private const string defaultText = "Score - ";
