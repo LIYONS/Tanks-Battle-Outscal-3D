@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class BulletMovement : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class BulletMovement : MonoBehaviour
     private float fireTimer;
     private float currentLaunchForce;
     bool fired;
+
+    //Events
+    public static event Action OnBulletFired;
 
     private void Start()
     {
@@ -59,6 +63,7 @@ public class BulletMovement : MonoBehaviour
     void Fire()
     {
         fired = true;
+        OnBulletFired?.Invoke();
         fireTimer = Time.time + bulletObject.nextFireDelay;
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
         shellInstance.velocity = currentLaunchForce * fireTransform.forward;

@@ -13,6 +13,8 @@ public class EnemyTankController
     private TankScriptableObject tankObject;
     private float currentHealth;
     private bool isDead;
+
+
     public EnemyTankController(EnemyTankModel _model)
     {
         this.tankModel = _model;
