@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using System;
 
 public class EnemyTankView : MonoBehaviour
 {          
@@ -18,7 +19,9 @@ public class EnemyTankView : MonoBehaviour
     private EnemyTankController controller;
     private TankScriptableObject tankObject;
     private TankState currentState;
-    
+
+    //Event
+    public static event Action OnEnemyDeath;
 
     private void Awake()
     {
@@ -65,6 +68,7 @@ public class EnemyTankView : MonoBehaviour
     }
     public void OnDeath()
     {
+        OnEnemyDeath?.Invoke();
         explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
