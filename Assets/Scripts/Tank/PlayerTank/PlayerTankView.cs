@@ -63,7 +63,7 @@ public class PlayerTankView : MonoBehaviour
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = _health;
         healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health /tankObject.maxHealth);
-        Invoke("SetUiInactive", tankObject.healthSliderTimer);
+        Invoke(nameof(SetUiInactive), tankObject.healthSliderTimer);
     }
 
     void SetUiInactive()
@@ -76,6 +76,7 @@ public class PlayerTankView : MonoBehaviour
         explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
+        gameObject.SetActive(false);
     }
     public void SetComponents(PlayerTankController _controller)
     {
