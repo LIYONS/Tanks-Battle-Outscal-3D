@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyTankSpawner : MonoBehaviour
@@ -29,7 +27,7 @@ public class EnemyTankSpawner : MonoBehaviour
 
             controller = new EnemyTankController(model);
 
-            view = GameObject.Instantiate(view,wayPoints[point].position,wayPoints[point].rotation);
+            view = Instantiate(view,wayPoints[point].position,wayPoints[point].rotation);
 
             view.SetComponents(controller, enemyObjects.tankList[scriptableObjectIndex],wayPoints);
             controller.SetTankView(view);

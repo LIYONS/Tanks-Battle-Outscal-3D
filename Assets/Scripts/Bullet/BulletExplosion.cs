@@ -9,14 +9,17 @@ public class BulletExplosion : MonoBehaviour
 
     private BulletScriptableObject bulletObject;
     private GameObject parent;
-    private bool doesExplode;
     private void Start()
     {
-        doesExplode = false;
         Destroy(gameObject, bulletObject.maxLifeTime);
     }
+
     private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("TankLayer"))
+        {
+            ExplosionEffect();
+        }
         Collider[] colliders = Physics.OverlapSphere(transform.position, bulletObject.explosionRadius, tankLayer);
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -25,12 +28,12 @@ public class BulletExplosion : MonoBehaviour
             {
                 continue;
             }
-            else if (!doesExplode)
+            else
             {
-                doesExplode = true;
                 Explode(rb);
             }
         }
+        
     }
     private void Explode(Rigidbody rb)
     {
@@ -45,6 +48,11 @@ public class BulletExplosion : MonoBehaviour
             float damage = CalculateDamage(rb.position);
             enemyTankView.TakeDamage(damage);
         }
+        ExplosionEffect();
+    }
+
+    private void ExplosionEffect()
+    {
         shellExplosionParticle.transform.parent = null;
         shellExplosionParticle.Play();
         Destroy(shellExplosionParticle.gameObject, shellExplosionParticle.main.duration);

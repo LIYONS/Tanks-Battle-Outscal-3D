@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -46,11 +44,10 @@ public class PlayerTankController
     }
     async private void OnDeath()
     {
-        tankView.OnDeath();
         await DestroyAllEnemies();
         await Task.Delay(TimeSpan.FromSeconds(1f));
         await DestroyLevel();
-        rb.gameObject.SetActive(false);
+        tankView.OnDeath();
     }
     async Task DestroyAllEnemies()
     {
