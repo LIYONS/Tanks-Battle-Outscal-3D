@@ -11,25 +11,16 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private AchievementList achievementList;
 
     private const string defaultAchievementText = "Achievement Unlocked : ";
-    private int  bulletCount;
 
     private void OnEnable()
     {
-        BulletMovement.OnBulletFired += UpdateBulletCount;
+        PlayerBulletMovement.BulletAchievement += CheckForBulletAchievement;
     }
     private void Start()
     {
         achievementPanel.SetActive(false);
-        bulletCount = 0;
     }
-
-    private void UpdateBulletCount()
-    {
-        bulletCount++;
-        CheckForAchievement();
-    }
-
-    private void CheckForAchievement()
+    private void CheckForBulletAchievement(int bulletCount)
     {
         AchievementScriptableObject achievementObject=null;
         if (achievementList.List !=null)
@@ -68,7 +59,7 @@ public class AchievementManager : MonoBehaviour
         achievementText.text = defaultAchievementText + achievement.name;
         achievementDescription.text = achievement.achievementDescription;
         achievementPanel.SetActive(true);
-        Invoke("DeactivateUi", uiTimer);
+        Invoke(nameof(DeactivateUi), uiTimer);
     }
     private AchievementScriptableObject FindAchievementObject(AchievementType _type)
     {
@@ -80,6 +71,6 @@ public class AchievementManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        BulletMovement.OnBulletFired -= UpdateBulletCount;
+        PlayerBulletMovement.BulletAchievement -= CheckForBulletAchievement;
     }
 }

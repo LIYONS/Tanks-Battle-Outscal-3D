@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class BulletMovement : MonoBehaviour
+public class PlayerBulletMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody shell;
     [SerializeField] private Slider aimSlider;
@@ -14,9 +14,9 @@ public class BulletMovement : MonoBehaviour
     private float fireTimer;
     private float currentLaunchForce;
     bool fired;
-
+    private int bulletCount;
     //Events
-    public static event Action OnBulletFired;
+    public static event Action<int> BulletAchievement;
 
     private void Start()
     {
@@ -63,11 +63,20 @@ public class BulletMovement : MonoBehaviour
     void Fire()
     {
         fired = true;
-        OnBulletFired?.Invoke();
+        bulletCount++;
+        CheckAchievement();
         fireTimer = Time.time + bulletObject.nextFireDelay;
         Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
         shellInstance.velocity = currentLaunchForce * fireTransform.forward;
         shellInstance.GetComponent<BulletExplosion>().SetComponents(bulletObject,this.gameObject);
         currentLaunchForce = bulletObject.minLaunchForce;
+    }
+
+    private void CheckAchievement()
+    {
+        if(bulletCount==10 || bulletCount==25 || bulletCount==50)
+        {
+            BulletAchievement?.Invoke(bulletCount);
+        }
     }
 }
