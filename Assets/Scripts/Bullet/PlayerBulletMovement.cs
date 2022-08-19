@@ -4,10 +4,12 @@ using System;
 
 public class PlayerBulletMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody shell;
+    [SerializeField] private BulletExplosion bulletPrefab;
     [SerializeField] private Slider aimSlider;
     [SerializeField] private Transform fireTransform;
     [SerializeField] private BulletScriptableObject bulletObject;
+
+    private BulletServicePool bulletServicePool;
     private float chargingSpeed;
     private float fireTimer;
     private float currentLaunchForce;
@@ -19,7 +21,7 @@ public class PlayerBulletMovement : MonoBehaviour
     private void Start()
     {
         currentLaunchForce = bulletObject.minLaunchForce;
-
+        bulletServicePool = GetComponent<BulletServicePool>();
         aimSlider.value = currentLaunchForce;
         fired = false;
         fireTimer = 0;
@@ -64,12 +66,16 @@ public class PlayerBulletMovement : MonoBehaviour
         bulletCount++;
         CheckAchievement();
         fireTimer = Time.time + bulletObject.nextFireDelay;
-        Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
-        shellInstance.velocity = currentLaunchForce * fireTransform.forward;
-        shellInstance.GetComponent<BulletExplosion>().SetComponents(bulletObject,this.gameObject);
-        currentLaunchForce = bulletObject.minLaunchForce;
+        ConfigureBullet();
     }
 
+    private void ConfigureBullet()
+    {
+        BulletExplosion bullletInstance = bulletServicePool.GetBullet(bulletPrefab,fireTransform);
+        bullletInstance.GetComponent<Rigidbody>(). velocity = currentLaunchForce * fireTransform.forward;
+        bullletInstance.GetComponent<BulletExplosion>().SetComponents(bulletObject, this.gameObject,bulletServicePool);
+        currentLaunchForce = bulletObject.minLaunchForce;
+    }
     private void CheckAchievement()
     {
         if(bulletCount==10 || bulletCount==25 || bulletCount==50)

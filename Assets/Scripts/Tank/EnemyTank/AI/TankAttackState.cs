@@ -4,20 +4,26 @@ public class TankAttackState : TankState
 {
     [SerializeField] private float bulletspeed;
     [SerializeField] private Transform fireTransform;
-    [SerializeField] private Rigidbody shell;
+    [SerializeField] private BulletExplosion bulletPrefab;
     [Range(0,5)] 
     [SerializeField] private float timeBtwFire;
     [SerializeField] private BulletScriptableObject bulletObject;
     [SerializeField] private float facePlayerSmoothness;
 
+    private BulletServicePool bulletServicePool;
     private NavMeshAgent agent;
     private Vector3 agentVelocity;
     private float timer;
     private Transform target;
+
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        bulletServicePool = GetComponent<BulletServicePool>();
+    }
     public override void OnEnterState()
     {
         base.OnEnterState();
-        agent = GetComponent<NavMeshAgent>();
         agentVelocity = agent.velocity;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
@@ -44,9 +50,9 @@ public class TankAttackState : TankState
 
     private void Fire()
     {
-        Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
-        shellInstance.GetComponent<BulletExplosion>().SetComponents(bulletObject,this.gameObject);
-        shellInstance.velocity = bulletspeed * fireTransform.forward;
+        BulletExplosion bulletInstance = bulletServicePool.GetBullet(bulletPrefab, fireTransform);
+        bulletInstance.SetComponents(bulletObject,this.gameObject,bulletServicePool);
+        bulletInstance.GetComponent<Rigidbody>(). velocity = bulletspeed * fireTransform.forward;
     }
     public void SetTarget(Transform _target)
     {
