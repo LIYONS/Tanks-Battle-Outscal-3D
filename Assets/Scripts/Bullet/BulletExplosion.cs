@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class BulletExplosion : MonoBehaviour
 {
-    public LayerMask tankLayer;
-    public ParticleSystem shellExplosionParticle;
+    [SerializeField] private LayerMask tankLayer;
+    [SerializeField] private ParticleSystem shellExplosionParticle;
 
+    private BulletServicePool bulletServicePool;
     private BulletScriptableObject bulletObject;
     private GameObject parent;
-    private void Start()
-    {
-        Destroy(gameObject, bulletObject.maxLifeTime);
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("TankLayer"))
@@ -48,15 +44,16 @@ public class BulletExplosion : MonoBehaviour
             float damage = CalculateDamage(rb.position);
             enemyTankView.TakeDamage(damage);
         }
-        ExplosionEffect();
+         ExplosionEffect();
     }
 
     private void ExplosionEffect()
     {
-        shellExplosionParticle.transform.parent = null;
-        shellExplosionParticle.Play();
-        Destroy(shellExplosionParticle.gameObject, shellExplosionParticle.main.duration);
-        Destroy(gameObject);
+        ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();
+        particleSystem.transform.parent = null;
+        particleSystem.Play();
+        Destroy(particleSystem.gameObject, particleSystem.main.duration);
+        ReturnToPool();
     }
     float CalculateDamage(Vector3 targetPosition)
     {
@@ -68,9 +65,15 @@ public class BulletExplosion : MonoBehaviour
         return damage;
     }
 
-    public void SetComponents(BulletScriptableObject _object,GameObject _parent)
+    private void ReturnToPool()
+    {
+        bulletServicePool.ReturnItem(this);
+        this.gameObject.SetActive(false);
+    }
+    public void SetComponents(BulletScriptableObject _object,GameObject _parent,BulletServicePool _bulletServicePool)
     {
         bulletObject = _object;
         parent = _parent;
+        bulletServicePool = _bulletServicePool;
     }
 }
