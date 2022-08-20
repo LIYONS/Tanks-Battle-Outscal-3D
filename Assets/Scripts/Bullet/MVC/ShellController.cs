@@ -13,7 +13,7 @@ public class ShellController
     }
     public void Explode(Rigidbody rb)
     {
-        if (rb.gameObject.tag == "Player")
+        if (rb.gameObject.CompareTag("Player"))
         {
             PlayerView playerTankView = rb.gameObject.GetComponent<PlayerView>();
             playerTankView.TakeDamage(CalculateDamage(rb.position));

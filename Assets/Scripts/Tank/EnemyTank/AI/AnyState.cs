@@ -22,7 +22,6 @@ public class AnyState : TankState
         {
             if(!isChasing && !isAttacking)
             {
-                Debug.Log("Chase");
                 GetComponent<TankChaseState>().SetTarget(target);
                 tankView.ChangeState(GetComponent<TankChaseState>());
                 isChasing = true;
@@ -30,7 +29,6 @@ public class AnyState : TankState
             distance = Vector3.Distance(transform.position, target.position);
             if (distance < attackDistance && !isAttacking)
             {
-                Debug.Log("Attack");
                 GetComponent<TankAttackState>().SetTarget(target);
                 tankView.ChangeState(GetComponent<TankAttackState>());
                 isAttacking = true;
@@ -39,14 +37,12 @@ public class AnyState : TankState
         }
         if (distance > attackDistance && isAttacking)
         {
-            Debug.Log("leave Attack");
             tankView.ChangeState(GetComponent<TankChaseState>());
             isAttacking = false;
             isChasing = true;
         }
         if(target==null && isChasing)
         {
-            Debug.Log("leave chase");
             tankView.ChangeState(GetComponent<TankPatrolState>());
             isChasing = false;
         }

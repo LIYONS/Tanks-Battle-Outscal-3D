@@ -8,36 +8,21 @@ public class ShellView : MonoBehaviour
 
     [SerializeField] private LayerMask tankLayer;
     [SerializeField] private ParticleSystem shellExplosionParticle;
-
-    private GameObject parent;
     private ShellController shellController;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("TankLayer"))
-        {
-            ExplosionEffect();
-        }
         Collider[] colliders = Physics.OverlapSphere(transform.position, shellController.GetShellModel.GetShellObject.explosionRadius, tankLayer);
         for (int i = 0; i < colliders.Length; i++)
         {
-            Rigidbody rb = colliders[i].GetComponent<Rigidbody>();
-            if (!rb || rb.gameObject == parent || Vector3.Distance(transform.position, rb.transform.position) > 2f)
-            {
-                continue;
-            }
-            else
+            Rigidbody rb = colliders[i].gameObject.GetComponent<Rigidbody>();
+            if (rb != null)
             {
                 shellController.Explode(rb);
-                ExplosionEffect();
             }
         }
+        ExplosionEffect();
     }
-    public void SetParent(GameObject _parent)
-    {
-        parent = _parent;
-    }
-
     public void ExplosionEffect()
     {
         ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();

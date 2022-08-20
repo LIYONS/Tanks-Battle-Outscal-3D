@@ -271,6 +271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   shellExplosionParticle: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e,
     type: 3}

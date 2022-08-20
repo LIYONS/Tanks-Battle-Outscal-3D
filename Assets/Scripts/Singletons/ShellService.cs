@@ -12,11 +12,10 @@ public class ShellService : MonoSingletonGeneric<ShellService>
     {
         shellServicePool = GetComponent<ShellServicePool>();
     }
-    public Rigidbody GetShell(ShellObject shellObject,GameObject _parent)
+    public Rigidbody GetShell(ShellObject shellObject)
     {
         ShellController shellController = shellServicePool.GetBullet(shellPrefab,shellObject);
         ShellView shellView = shellController.GetShellView;
-        shellView.SetParent(_parent);
         return shellView.GetComponent<Rigidbody>();
     }
 
