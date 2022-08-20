@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 6308987674331181254}
   - component: {fileID: 6308987674333475368}
   - component: {fileID: 6308987674333475369}
-  - component: {fileID: 1269695093531172778}
+  - component: {fileID: -8548813306645949309}
   m_Layer: 0
   m_Name: Shell
   m_TagString: Untagged
@@ -257,7 +257,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1269695093531172778
+--- !u!114 &-8548813306645949309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,11 +266,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6308987674333113862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c96aca4b1e6d0546b2c43ae4ef5817c, type: 3}
+  m_Script: {fileID: 11500000, guid: c45bc2b8b7201cf40be66a82201e76f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tankLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 0
   shellExplosionParticle: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e,
     type: 3}

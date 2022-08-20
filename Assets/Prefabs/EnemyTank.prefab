@@ -10275,8 +10275,6 @@ GameObject:
   - component: {fileID: 8450971232576608855}
   - component: {fileID: 6492721435383913174}
   - component: {fileID: -1453159360898601312}
-  - component: {fileID: 1760691597766744930}
-  - component: {fileID: -7888693730842165639}
   m_Layer: 12
   m_Name: EnemyTank
   m_TagString: Enemy
@@ -10388,10 +10386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93901e9d8b5ab034aadaba6d21fa46d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletspeed: 15
   fireTransform: {fileID: 695068091612943208}
-  bulletPrefab: {fileID: 1269695093531172778, guid: 8851cdbd7ff27394e8dce0a61c983d3e,
-    type: 3}
   timeBtwFire: 2
   bulletObject: {fileID: 11400000, guid: 1e800ee9d83ce6d4c947748b01c7081f, type: 2}
   facePlayerSmoothness: 0.5
@@ -10443,32 +10438,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e4cbbda40f468478ded40c4e6a3239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chaseRadius: 20
   attackDistance: 10
---- !u!135 &1760691597766744930
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6997545847218346589}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 20
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7888693730842165639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6997545847218346589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 747776156c1fa144c809bb345561272d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  tankLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!1 &6997545847218346591
 GameObject:
   m_ObjectHideFlags: 0

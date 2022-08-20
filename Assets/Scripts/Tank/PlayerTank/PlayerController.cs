@@ -10,6 +10,8 @@ public class PlayerController
     private Rigidbody rb;
     private float currentHealth;
     private bool isDead;
+
+    private int bulletCount;
     public PlayerController(PlayerModel _model)
     {
         playerModel = _model;
@@ -72,6 +74,26 @@ public class PlayerController
             gameObjects[i].SetActive(false);
         }
         await Task.Yield();
+    }
+
+    public void Fire(Vector3 velocity)
+    {
+        bulletCount++;
+        CheckAchievement();
+        Rigidbody shellInstance = ShellService.Instance.GetShell(playerView.GetShellObject, playerView.gameObject);
+        shellInstance.transform.SetPositionAndRotation(playerView.GetFireTransform.position, playerView.GetFireTransform.rotation);
+        if(velocity==null)
+        {
+            Debug.Log("Null");
+        }
+        shellInstance.velocity = velocity;
+    }
+    private void CheckAchievement()
+    {
+        if (bulletCount == 10 || bulletCount == 25 || bulletCount == 50)
+        {
+            EventHandler.Instance.InvokeBulletAchievement(bulletCount);
+        }
     }
     public PlayerModel GetPlayerModel()
     {

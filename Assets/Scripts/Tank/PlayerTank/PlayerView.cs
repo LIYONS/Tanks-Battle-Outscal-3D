@@ -8,6 +8,10 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Color healthStartColor = Color.green;
     [SerializeField] private Color healthDamageColor = Color.red;
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private GameObject[] tankBody;
+    [SerializeField] private Slider aimSlider;
+    [SerializeField] private Transform fireTransform;
+    [SerializeField] private ShellObject shellObject;
 
     private ParticleSystem explosionEffect;
     private PlayerController playerController;
@@ -15,6 +19,12 @@ public class PlayerView : MonoBehaviour
     private float movementInput;
     private float turnInput;
 
+
+    private ShellServicePool bulletServicePool;
+    private float chargingSpeed;
+    private float fireTimer;
+    private float currentLaunchForce;
+    bool fired;
     private void Awake()
     {
         explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
@@ -25,6 +35,53 @@ public class PlayerView : MonoBehaviour
         SetTankObject();
         SetColour();
         SetHealthUI(playerObject.maxHealth);
+
+        currentLaunchForce = shellObject.minLaunchForce;
+        bulletServicePool = GetComponent<ShellServicePool>();
+        aimSlider.value = currentLaunchForce;
+        fired = false;
+        fireTimer = 0;
+        chargingSpeed = (shellObject.maxLaunchForce - shellObject.minLaunchForce) / shellObject.maxChargeTime;
+    }
+    private void Update()
+    {
+        aimSlider.value = shellObject.minLaunchForce;
+        FireCheck();
+    }
+    void FireCheck()
+    {
+        if (fireTimer < Time.time)
+        {
+            if (currentLaunchForce >= shellObject.maxLaunchForce && !fired)
+            {
+                currentLaunchForce = shellObject.maxLaunchForce;
+                Fire();
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                fired = false;
+                currentLaunchForce = shellObject.minLaunchForce;
+            }
+            else if (Input.GetKey(KeyCode.Mouse0))
+            {
+                currentLaunchForce += chargingSpeed * Time.deltaTime;
+                aimSlider.value = currentLaunchForce;
+            }
+            else if (Input.GetKeyUp(KeyCode.Mouse0) && !fired)
+            {
+                Fire();
+            }
+        }
+    }
+    
+
+    private void Fire()
+    {
+        Vector3 velocity = currentLaunchForce * fireTransform.forward;
+        playerController.Fire(velocity);
+        fired = true;
+        fireTimer = Time.time + shellObject.nextFireDelay;
+        currentLaunchForce =shellObject.minLaunchForce;
     }
     void FixedUpdate()
     {
@@ -53,10 +110,10 @@ public class PlayerView : MonoBehaviour
     }
     void SetColour()
     {
-        Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
-        Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
-        tankTurret.gameObject.GetComponent<Renderer>().material.color = playerObject.tankColor;
-        tankChassis.gameObject.GetComponent<Renderer>().material.color = playerObject.tankColor;
+        for (int i = 0; i < tankBody.Length; i++)
+        {
+            tankBody[i].GetComponent<Renderer>().material.color = playerObject.tankColor;
+        }
     }
     public void SetHealthUI(float _health)
     {
@@ -91,9 +148,12 @@ public class PlayerView : MonoBehaviour
         return GetComponent<Rigidbody>();
     }
 
+    public ShellObject GetShellObject { get { return shellObject; } }
+
+    public Transform GetFireTransform { get { return fireTransform; } }
+
     public TankScriptableObject GetTankObject()
     {
         return playerObject;
     }
-
 }

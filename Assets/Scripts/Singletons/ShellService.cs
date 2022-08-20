@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellService : MonoBehaviour
+public class ShellService : MonoSingletonGeneric<ShellService>
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] ShellView shellPrefab;
+
+    private ShellServicePool shellServicePool;
+
+    private void OnEnable()
     {
-        
+        shellServicePool = GetComponent<ShellServicePool>();
+    }
+    public Rigidbody GetShell(ShellObject shellObject,GameObject _parent)
+    {
+        ShellController shellController = shellServicePool.GetBullet(shellPrefab,shellObject);
+        ShellView shellView = shellController.GetShellView;
+        shellView.SetParent(_parent);
+        return shellView.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReturnToPool(ShellController shellController)
     {
-        
+        shellServicePool.ReturnItem(shellController);
     }
+    
 }

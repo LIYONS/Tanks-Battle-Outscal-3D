@@ -7,8 +7,8 @@ public class BulletExplosion : MonoBehaviour
     [SerializeField] private LayerMask tankLayer;
     [SerializeField] private ParticleSystem shellExplosionParticle;
 
-    private BulletServicePool bulletServicePool;
-    private BulletScriptableObject bulletObject;
+    //private BulletServicePool bulletServicePool;
+    private ShellObject bulletObject;
     private GameObject parent;
     private void OnTriggerStay(Collider other)
     {
@@ -67,13 +67,13 @@ public class BulletExplosion : MonoBehaviour
 
     private void ReturnToPool()
     {
-        bulletServicePool.ReturnItem(this);
+        //bulletServicePool.ReturnItem(this);
         this.gameObject.SetActive(false);
     }
-    public void SetComponents(BulletScriptableObject _object,GameObject _parent,BulletServicePool _bulletServicePool)
+    public void SetComponents(ShellObject _object,GameObject _parent,ShellServicePool _bulletServicePool)
     {
         bulletObject = _object;
         parent = _parent;
-        bulletServicePool = _bulletServicePool;
+        //bulletServicePool = _bulletServicePool;
     }
 }

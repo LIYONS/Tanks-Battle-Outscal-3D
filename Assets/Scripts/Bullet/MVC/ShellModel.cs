@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellModel : MonoBehaviour
+public class ShellModel
 {
-    // Start is called before the first frame update
-    void Start()
+    private ShellObject shellObject;
+    private ShellController shellController;
+
+    public ShellModel(ShellObject _object)
     {
-        
+        shellObject = _object;
     }
 
-    // Update is called once per frame
-    void Update()
+    public ShellObject GetShellObject { get { return shellObject; } }
+
+    public void SetShellController(ShellController _controller)
     {
-        
+        shellController = _controller;
     }
 }

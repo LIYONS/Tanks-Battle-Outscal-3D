@@ -2,49 +2,66 @@ using UnityEngine;
 
 public class AnyState : TankState
 {
+    [SerializeField] private float chaseRadius;
     [SerializeField] private float attackDistance;
+    [SerializeField] private LayerMask tankLayer;
 
     private bool isAttacking;
-
-    public override void OnEnterState()
+    private bool isChasing;
+    private float distance;
+    public void Start()
     {
-        base.OnEnterState();
         isAttacking = false;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag=="Player")
-        {
-            GetComponent<TankChaseState>().SetTarget(other.transform);
-            tankView.ChangeState(GetComponent<TankChaseState>());
-        }
+        isChasing = false;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (other.gameObject.tag == "Player")
+        Transform target = TargetInRange();
+        if(target!=null)
         {
-            float distance = Vector3.Distance(transform.position, other.transform.position);
-            if(distance<=attackDistance && !isAttacking)
+            if(!isChasing && !isAttacking)
             {
-                GetComponent<TankAttackState>().SetTarget(other.transform);
+                Debug.Log("Chase");
+                GetComponent<TankChaseState>().SetTarget(target);
+                tankView.ChangeState(GetComponent<TankChaseState>());
+                isChasing = true;
+            }
+            distance = Vector3.Distance(transform.position, target.position);
+            if (distance < attackDistance && !isAttacking)
+            {
+                Debug.Log("Attack");
+                GetComponent<TankAttackState>().SetTarget(target);
                 tankView.ChangeState(GetComponent<TankAttackState>());
                 isAttacking = true;
-            }
-
-            if(distance>attackDistance && isAttacking)
-            {
-                tankView.ChangeState(GetComponent<TankChaseState>());
-                isAttacking = false;
+                isChasing = false;
             }
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.tag=="Player")
+        if (distance > attackDistance && isAttacking)
         {
-            tankView.ChangeState(GetComponent<TankPatrolState>());
+            Debug.Log("leave Attack");
+            tankView.ChangeState(GetComponent<TankChaseState>());
+            isAttacking = false;
+            isChasing = true;
         }
+        if(target==null && isChasing)
+        {
+            Debug.Log("leave chase");
+            tankView.ChangeState(GetComponent<TankPatrolState>());
+            isChasing = false;
+        }
+        
+    }
+    private Transform TargetInRange()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRadius, tankLayer);
+        for(int i=0;i<colliders.Length;i++)
+        {
+            if(colliders[i].tag=="Player")
+            {
+                return colliders[i].transform;
+            }
+        }
+        return null;
     }
 }

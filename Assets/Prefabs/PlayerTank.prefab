@@ -10472,9 +10472,7 @@ GameObject:
   - component: {fileID: 3387819827402079090}
   - component: {fileID: 1171600093949754282}
   - component: {fileID: 8590722740013278448}
-  - component: {fileID: 940822028456329274}
   - component: {fileID: 2025790820249260341}
-  - component: {fileID: 8956938614310303120}
   m_Layer: 12
   m_Name: PlayerTank
   m_TagString: Player
@@ -10548,23 +10546,9 @@ MonoBehaviour:
   healthStartColor: {r: 0, g: 1, b: 0, a: 1}
   healthDamageColor: {r: 1, g: 0, b: 0, a: 1}
   explosionPrefab: {fileID: 151086, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
---- !u!114 &940822028456329274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387819827402046588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8dbc926e308da409eaff230d215de2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1269695093531172778, guid: 8851cdbd7ff27394e8dce0a61c983d3e,
-    type: 3}
   aimSlider: {fileID: 634916585}
   fireTransform: {fileID: 478262407}
-  bulletObject: {fileID: 11400000, guid: e897c6de83ac6094191770da9e863699, type: 2}
+  shellObject: {fileID: 11400000, guid: e897c6de83ac6094191770da9e863699, type: 2}
 --- !u!208 &2025790820249260341
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -10581,18 +10565,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &8956938614310303120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387819827402046588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 747776156c1fa144c809bb345561272d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3387819827402046590
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName ="BulletObject",menuName ="ScriptableObject/BulletObject")]
-public class BulletScriptableObject : ScriptableObject
+public class ShellObject : ScriptableObject
 {
     public TankType color;
     public float maxChargeTime;
