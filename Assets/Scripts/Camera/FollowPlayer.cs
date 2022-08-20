@@ -4,7 +4,7 @@ public class FollowPlayer : MonoBehaviour
 {
     private Transform target;
 
-    CinemachineVirtualCamera cinemachineVirtualCamera;
+    private CinemachineVirtualCamera cinemachineVirtualCamera;
     private void Awake()
     {
         cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();

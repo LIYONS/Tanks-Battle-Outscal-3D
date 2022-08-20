@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerTankView : MonoBehaviour
+public class PlayerView : MonoBehaviour
 {
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthSliderFillImage;
@@ -10,8 +10,8 @@ public class PlayerTankView : MonoBehaviour
     [SerializeField] private GameObject explosionPrefab;
 
     private ParticleSystem explosionEffect;
-    private PlayerTankController tankController;
-    private TankScriptableObject tankObject;
+    private PlayerController playerController;
+    private TankScriptableObject playerObject;
     private float movementInput;
     private float turnInput;
 
@@ -24,7 +24,7 @@ public class PlayerTankView : MonoBehaviour
     {
         SetTankObject();
         SetColour();
-        SetHealthUI(tankObject.maxHealth);
+        SetHealthUI(playerObject.maxHealth);
     }
     void FixedUpdate()
     {
@@ -36,34 +36,34 @@ public class PlayerTankView : MonoBehaviour
         turnInput = Input.GetAxis("Horizontal");
         if(turnInput!=0)
         {
-            tankController.Rotate(turnInput);
+            playerController.Rotate(turnInput);
         }
     }
     public void TakeDamage(float amount)
     {
-        tankController.TakeDamage(amount);
+        playerController.TakeDamage(amount);
     }
     private void Move()
     {
         movementInput = Input.GetAxis("Vertical");
         if(movementInput!=0)
         {
-            tankController.Movement(movementInput);
+            playerController.Movement(movementInput);
         }
     }
     void SetColour()
     {
         Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
         Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
-        tankTurret.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
-        tankChassis.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
+        tankTurret.gameObject.GetComponent<Renderer>().material.color = playerObject.tankColor;
+        tankChassis.gameObject.GetComponent<Renderer>().material.color = playerObject.tankColor;
     }
     public void SetHealthUI(float _health)
     {
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = _health;
-        healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health /tankObject.maxHealth);
-        Invoke(nameof(SetUiInactive), tankObject.healthSliderTimer);
+        healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health /playerObject.maxHealth);
+        Invoke(nameof(SetUiInactive), playerObject.healthSliderTimer);
     }
 
     void SetUiInactive()
@@ -78,13 +78,13 @@ public class PlayerTankView : MonoBehaviour
         explosionEffect.Play();
         gameObject.SetActive(false);
     }
-    public void SetComponents(PlayerTankController _controller)
+    public void SetController(PlayerController _controller)
     {
-        tankController = _controller;
+        playerController = _controller;
     }
     void SetTankObject()
     {
-        tankObject = tankController.GetTankModel().GetTankObject();
+        playerObject = playerController.GetPlayerModel().GetTankObject();
     }
     public Rigidbody GetRigidBody()
     {
@@ -93,6 +93,7 @@ public class PlayerTankView : MonoBehaviour
 
     public TankScriptableObject GetTankObject()
     {
-        return tankObject;
+        return playerObject;
     }
+
 }

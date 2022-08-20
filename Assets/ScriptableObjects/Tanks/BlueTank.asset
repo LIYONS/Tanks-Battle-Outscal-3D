@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3090308d29ff1a4187dd87c48415f2e, type: 3}
-  m_Name: SmallFastTank
+  m_Name: BlueTank
   m_EditorClassIdentifier: 
-  tankColor: {r: 0, g: 0.47058824, b: 0, a: 0}
-  movementSpeed: 15
+  tankType: 3
+  tankColor: {r: 0, g: 0.1117146, b: 1, a: 0}
+  movementSpeed: 12
   turnSpeed: 180
   maxHealth: 100
   healthSliderTimer: 2

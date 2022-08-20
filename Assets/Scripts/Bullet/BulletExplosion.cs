@@ -35,7 +35,7 @@ public class BulletExplosion : MonoBehaviour
     {
         if (rb.gameObject.tag == "Player")
         {
-            PlayerTankView playerTankView = rb.gameObject.GetComponent<PlayerTankView>();
+            PlayerView playerTankView = rb.gameObject.GetComponent<PlayerView>();
             playerTankView.TakeDamage(CalculateDamage(rb.position));
         }
         EnemyTankView enemyTankView =rb.GetComponent<EnemyTankView>();

@@ -2,26 +2,30 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class PlayerTankController
+public class PlayerController
 {
-    private PlayerTankModel tankModel;
-    private PlayerTankView tankView;
+    private PlayerModel playerModel;
+    private PlayerView playerView;
     private TankScriptableObject tankObject;
     private Rigidbody rb;
     private float currentHealth;
     private bool isDead;
-    public PlayerTankController(PlayerTankModel _model)
+    public PlayerController(PlayerModel _model)
     {
-        tankModel = _model;
-        tankModel.SetTankController(this);
-        tankObject = tankModel.GetTankObject();
+        playerModel = _model;
+        tankObject = playerModel.GetTankObject();
         currentHealth = tankObject.maxHealth;
         isDead = false;
     }
 
+
     public void Movement(float movementInput)
     {
-        Vector3 movement = tankView.gameObject.transform.forward * movementInput * tankObject.movementSpeed * Time.deltaTime;
+        if(!rb)
+        {
+            rb = playerView.GetRigidBody();
+        }
+        Vector3 movement = movementInput * tankObject.movementSpeed * Time.deltaTime * playerView.gameObject.transform.forward;
         rb.MovePosition(rb.position + movement);
     }
 
@@ -35,7 +39,7 @@ public class PlayerTankController
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        tankView.SetHealthUI(currentHealth);
+        playerView.SetHealthUI(currentHealth);
         if (currentHealth <= 0 && !isDead)
         {
             isDead = true;
@@ -47,7 +51,7 @@ public class PlayerTankController
         await DestroyAllEnemies();
         await Task.Delay(TimeSpan.FromSeconds(1f));
         await DestroyLevel();
-        tankView.OnDeath();
+        playerView.OnDeath();
     }
     async Task DestroyAllEnemies()
     {
@@ -69,18 +73,13 @@ public class PlayerTankController
         }
         await Task.Yield();
     }
-    public PlayerTankModel GetTankModel()
+    public PlayerModel GetPlayerModel()
     {
-        return tankModel;
-    }
-    public PlayerTankView GetTankView()
-    {
-        return tankView;
+        return playerModel;
     }
 
-    public void SetTankView(PlayerTankView _tankView)
+    public void SetPlayerView(PlayerView _view)
     {
-        tankView = _tankView;
-        rb = tankView.GetRigidBody();
+        playerView = _view;
     }
 }

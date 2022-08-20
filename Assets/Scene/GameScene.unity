@@ -226,7 +226,7 @@ Transform:
   m_Children:
   - {fileID: 768430473}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &128404637
 MonoBehaviour:
@@ -463,7 +463,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912098855
 GameObject:
@@ -601,6 +601,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912098855}
   m_CullTransparentMesh: 1
+--- !u!1 &960161767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 960161769}
+  - component: {fileID: 960161768}
+  m_Layer: 0
+  m_Name: PlayerService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &960161768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960161767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca43c42af475acf498fdb0e446f777f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerView: {fileID: 8590722740013278448, guid: 9729cdfdeb0cb6e44ae30e88c453c634,
+    type: 3}
+  tankList: {fileID: 11400000, guid: 101e3f2a56a951d45ae0730937c1155f, type: 2}
+  tankType: 1
+--- !u!4 &960161769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960161767}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996184838
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,7 +921,7 @@ Transform:
   - {fileID: 181014444}
   - {fileID: 1393963923}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1158996493
 PrefabInstance:
@@ -960,7 +1008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 488946, guid: 312c52d27be2d2d42acea3ccebc4694b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 488946, guid: 312c52d27be2d2d42acea3ccebc4694b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1340,30 +1388,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1564692193}
-  - component: {fileID: 1564692192}
   - component: {fileID: 1564692194}
   m_Layer: 0
-  m_Name: TankService
+  m_Name: EnemyService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1564692192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1564692191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca43c42af475acf498fdb0e446f777f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTankView: {fileID: 8590722740013278448, guid: 9729cdfdeb0cb6e44ae30e88c453c634,
-    type: 3}
-  playerObject: {fileID: 11400000, guid: f39aad5a0eabf0048bb9b8cf2bce8b12, type: 2}
 --- !u!4 &1564692193
 Transform:
   m_ObjectHideFlags: 0
@@ -1377,7 +1409,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1564692194
 MonoBehaviour:
@@ -1392,14 +1424,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   view: {fileID: 6413794110404587023, guid: dfc843c747b67954fb9e9bfea39c411f, type: 3}
-  enemyObjects: {fileID: 11400000, guid: 101e3f2a56a951d45ae0730937c1155f, type: 2}
-  enemyCount: 3
-  wayPoints:
-  - {fileID: 85978645}
-  - {fileID: 448761828}
-  - {fileID: 1478499423}
-  - {fileID: 181014444}
-  - {fileID: 1393963923}
+  tankSOList: {fileID: 0}
+  numberOfEnemies: 0
+  patrolPoints: []
 --- !u!1 &1705570442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1524,7 @@ RectTransform:
   - {fileID: 1995421728}
   - {fileID: 996184839}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

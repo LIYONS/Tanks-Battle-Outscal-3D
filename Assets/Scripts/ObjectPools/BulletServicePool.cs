@@ -11,8 +11,8 @@ public class BulletServicePool : GenericPool<BulletExplosion>
         bulletPrefab = _bulletPrefab;
         fireTransform = _fireTransform;
         BulletExplosion bulletInstance = GetItem();
-        bulletInstance.gameObject.SetActive(true);
         bulletInstance.transform.SetPositionAndRotation(fireTransform.position, fireTransform.rotation);
+        bulletInstance.gameObject.SetActive(true);
         return bulletInstance;
     }
     public override BulletExplosion CreateItem()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum TankColor
+public enum TankType
 {
     None,
     Red,
@@ -10,6 +10,7 @@ public enum TankColor
 [CreateAssetMenu(fileName ="TankScriptableObject",menuName ="ScriptableObject/TankScriptableObject")]
 public class TankScriptableObject : ScriptableObject
 {
+    public TankType tankType;
     public Color tankColor;
     public float movementSpeed;
     public float turnSpeed;

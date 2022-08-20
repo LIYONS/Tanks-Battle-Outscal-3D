@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class EnemyTankSpawner : MonoBehaviour
+public class EnemyTankSpawner : MonoSingletonGeneric<EnemyTankSpawner>
 {
-    public EnemyTankView view;
-    public TankList enemyObjects;
-    public int enemyCount;
-    public Transform[] wayPoints;
+    [SerializeField] private EnemyTankView view;
+    [SerializeField] private TankList tankSOList;
+    [SerializeField] private int numberOfEnemies;
+    [SerializeField] private Transform[] patrolPoints;
 
 
     private EnemyTankController controller;
@@ -16,20 +16,20 @@ public class EnemyTankSpawner : MonoBehaviour
     }
     private void SpawnTank()
     {
-        for(int i=0,point=0;i<enemyCount;i++,point++)
+        for(int i=0,point=0;i<numberOfEnemies;i++,point++)
         {
-            if(point==wayPoints.Length)
+            if(point==patrolPoints.Length)
             {
                 point = 0;
             }
-            scriptableObjectIndex = Random.Range(0, enemyObjects.tankList.Length);
-            EnemyTankModel model = new EnemyTankModel(enemyObjects.tankList[scriptableObjectIndex], wayPoints);
+            scriptableObjectIndex = Random.Range(0, tankSOList.tankSOList.Count);
+            EnemyTankModel model = new EnemyTankModel(tankSOList.tankSOList[scriptableObjectIndex], patrolPoints);
 
             controller = new EnemyTankController(model);
 
-            view = Instantiate(view,wayPoints[point].position,wayPoints[point].rotation);
+            view = Instantiate(view,patrolPoints[point].position,patrolPoints[point].rotation);
 
-            view.SetComponents(controller, enemyObjects.tankList[scriptableObjectIndex],wayPoints);
+            view.SetComponents(controller, tankSOList.tankSOList[scriptableObjectIndex],patrolPoints);
             controller.SetTankView(view);
         }
     }
