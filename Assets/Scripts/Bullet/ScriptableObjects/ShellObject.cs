@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="BulletObject",menuName ="ScriptableObject/BulletObject")]
+[CreateAssetMenu(fileName ="ShellObject",menuName ="ScriptableObject/ShellObject")]
 public class ShellObject : ScriptableObject
 {
-    public TankType color;
     public float maxChargeTime;
     public float minLaunchForce;
     public float maxLaunchForce;

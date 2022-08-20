@@ -10388,7 +10388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireTransform: {fileID: 695068091612943208}
   timeBtwFire: 2
-  bulletObject: {fileID: 11400000, guid: 1e800ee9d83ce6d4c947748b01c7081f, type: 2}
+  bulletObject: {fileID: 11400000, guid: e897c6de83ac6094191770da9e863699, type: 2}
   facePlayerSmoothness: 0.5
 --- !u!114 &4676796650518699032
 MonoBehaviour:

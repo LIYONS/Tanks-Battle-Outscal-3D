@@ -5,7 +5,6 @@ using UnityEngine;
 public class ShellService : MonoSingletonGeneric<ShellService>
 {
     [SerializeField] ShellView shellPrefab;
-
     private ShellServicePool shellServicePool;
 
     private void OnEnable()

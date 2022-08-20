@@ -10551,7 +10551,7 @@ MonoBehaviour:
   - {fileID: 3387819827402046580}
   aimSlider: {fileID: 634916585}
   fireTransform: {fileID: 478262407}
-  shellObject: {fileID: 11400000, guid: e897c6de83ac6094191770da9e863699, type: 2}
+  shellObject: {fileID: 11400000, guid: e4710e91ec6e4504e84544e45b2050cd, type: 2}
 --- !u!208 &2025790820249260341
 NavMeshObstacle:
   m_ObjectHideFlags: 0
