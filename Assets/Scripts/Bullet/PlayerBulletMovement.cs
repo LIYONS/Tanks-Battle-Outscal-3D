@@ -15,8 +15,6 @@ public class PlayerBulletMovement : MonoBehaviour
     private float currentLaunchForce;
     bool fired;
     private int bulletCount;
-    //Events
-    public static event Action<int> BulletAchievement;
 
     private void Start()
     {
@@ -80,7 +78,7 @@ public class PlayerBulletMovement : MonoBehaviour
     {
         if(bulletCount==10 || bulletCount==25 || bulletCount==50)
         {
-            BulletAchievement?.Invoke(bulletCount);
+            EventHandler.Instance.InvokeBulletAchievement(bulletCount);
         }
     }
 }

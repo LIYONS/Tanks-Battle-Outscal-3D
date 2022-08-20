@@ -38,7 +38,7 @@ public class BulletExplosion : MonoBehaviour
             PlayerView playerTankView = rb.gameObject.GetComponent<PlayerView>();
             playerTankView.TakeDamage(CalculateDamage(rb.position));
         }
-        EnemyTankView enemyTankView =rb.GetComponent<EnemyTankView>();
+        EnemyView enemyTankView =rb.GetComponent<EnemyView>();
         if (enemyTankView)
         {
             float damage = CalculateDamage(rb.position);

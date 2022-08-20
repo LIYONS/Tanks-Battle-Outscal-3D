@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class EnemyTankView : MonoBehaviour
+public class EnemyView : MonoBehaviour
 {          
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthSliderFillImage;
@@ -10,15 +10,12 @@ public class EnemyTankView : MonoBehaviour
     [SerializeField] private Color healthDamageColor = Color.red;
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private TankState defaultState;
+    [SerializeField] GameObject[] tankBody;
 
     private ParticleSystem explosionEffect;
-    private Transform[] wayPoints;
-    private EnemyTankController controller;
-    private TankScriptableObject tankObject;
+    private EnemyController enemyController;
+    private TankScriptableObject enemyObject;
     private TankState currentState;
-
-    //Event
-    public static event Action OnEnemyDeath;
 
     private void Awake()
     {
@@ -27,29 +24,30 @@ public class EnemyTankView : MonoBehaviour
     }
     private void Start()
     {
-        controller.SetTankView(this);
+        enemyController.SetTankView(this);
+        enemyObject = enemyController.GetEnemyModel().GetTankObject();
         SetColour();
-        SetHealthUI(tankObject.maxHealth);
+        SetHealthUI(enemyObject.maxHealth);
         currentState = defaultState;
         currentState.OnEnterState();
     }
     public void TakeDamage(float amount)
     {
-        controller.TakeDamage(amount);
+        enemyController.TakeDamage(amount);
     }
     void SetColour()
     {
-        Transform tankTurret = gameObject.transform.Find("TankRenderers/TankTurret");
-        Transform tankChassis = gameObject.transform.Find("TankRenderers/TankChassis");
-        tankTurret.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
-        tankChassis.gameObject.GetComponent<Renderer>().material.color = tankObject.tankColor;
+        for (int i = 0; i < tankBody.Length; i++)
+        {
+            tankBody[i].GetComponent<Renderer>().material.color = enemyObject.tankColor;
+        }
     }
     public void SetHealthUI(float _health)
     {
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = _health;
-        healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health / tankObject.maxHealth);
-        Invoke("SetUiInactive", tankObject.healthSliderTimer);
+        healthSliderFillImage.color = Color.Lerp(healthDamageColor, healthStartColor, _health / enemyObject.maxHealth);
+        Invoke(nameof(SetUiInactive), enemyObject.healthSliderTimer);
     }
 
     public void ChangeState(TankState newState)
@@ -65,20 +63,13 @@ public class EnemyTankView : MonoBehaviour
     }
     public void OnDeath()
     {
-        OnEnemyDeath?.Invoke();
+        EventHandler.Instance.InvokeEnemyDeath();
         explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
     }
-    public void SetComponents( EnemyTankController _controller, TankScriptableObject _tank, Transform[] _points)
+    public void SetController( EnemyController _controller)
     {
-        controller = _controller;
-        tankObject = _tank;
-        wayPoints = _points;
+        enemyController = _controller;
     }
-    public Transform[] GetWayPoints() 
-    {
-        return wayPoints;  
-    }
-    public Rigidbody GetRigidbody { get { return GetComponent<Rigidbody>(); } }
 }
