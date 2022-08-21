@@ -143,10 +143,8 @@ public class PlayerView : MonoBehaviour
     {
         playerObject = playerController.GetPlayerModel().GetTankObject();
     }
-    public Rigidbody GetRigidBody()
-    {
-        return GetComponent<Rigidbody>();
-    }
+    public Rigidbody GetRigidBody { get { return GetComponent<Rigidbody>(); } }
+  
 
     public ShellObject GetShellObject { get { return shellObject; } }
 

@@ -13,14 +13,12 @@ public class ShellService : MonoSingletonGeneric<ShellService>
     }
     public Rigidbody GetShell(ShellObject shellObject)
     {
-        ShellController shellController = shellServicePool.GetBullet(shellPrefab,shellObject);
+        ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
         ShellView shellView = shellController.GetShellView;
         return shellView.GetComponent<Rigidbody>();
     }
-
     public void ReturnToPool(ShellController shellController)
     {
         shellServicePool.ReturnItem(shellController);
     }
-    
 }

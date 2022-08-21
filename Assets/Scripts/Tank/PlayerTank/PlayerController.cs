@@ -25,14 +25,18 @@ public class PlayerController
     {
         if(!rb)
         {
-            rb = playerView.GetRigidBody();
+            rb = playerView.GetRigidBody;
         }
         Vector3 movement = movementInput * tankObject.movementSpeed * Time.deltaTime * playerView.gameObject.transform.forward;
         rb.MovePosition(rb.position + movement);
     }
 
     public void Rotate(float turnInput)
-    {   
+    {
+        if (!rb)
+        {
+            rb = playerView.GetRigidBody;
+        }
         float turn = turnInput * 0.5f * tankObject.turnSpeed * Time.deltaTime;
         Quaternion turnValue = Quaternion.Euler(0f, turn, 0f);
         rb.MoveRotation(rb.rotation * turnValue);
@@ -82,10 +86,6 @@ public class PlayerController
         CheckAchievement();
         Rigidbody shellInstance = ShellService.Instance.GetShell(playerView.GetShellObject);
         shellInstance.transform.SetPositionAndRotation(playerView.GetFireTransform.position, playerView.GetFireTransform.rotation);
-        if(velocity==null)
-        {
-            Debug.Log("Null");
-        }
         shellInstance.velocity = velocity;
     }
     private void CheckAchievement()
