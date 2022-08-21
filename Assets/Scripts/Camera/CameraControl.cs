@@ -1,6 +1,6 @@
 using UnityEngine;
 using Cinemachine;
-public class FollowPlayer : MonoBehaviour
+public class CameraControl : MonoBehaviour
 {
     private Transform target;
 
