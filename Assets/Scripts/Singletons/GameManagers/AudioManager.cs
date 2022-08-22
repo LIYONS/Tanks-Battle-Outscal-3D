@@ -8,16 +8,15 @@ public class AudioManager : MonoSingletonGeneric<AudioManager>
     [SerializeField] private AudioSource musicAS;
     [SerializeField] private AudioSource sfxAS;
     [SerializeField] private AudioSource gameAS;
-    [SerializeField] private float musicVolume;
-    [SerializeField] private float sfxVolume;
-    [SerializeField] private float gameVolume;
     [SerializeField] private List<Sounds> sounds;
+
+    private const string musicVolume = "musicVolume";
+    private const string gameVolume = "gameVolume";
+    private const string sfxVolume = "sfxVolume";
 
     private void Start()
     {
-        musicAS.volume = musicVolume;
-        sfxAS.volume = sfxVolume;
-        gameAS.volume = gameVolume;
+        ResetSounds();
         PlayMusic(SoundType.BackGroundMusic);
     }
 
@@ -65,9 +64,31 @@ public class AudioManager : MonoSingletonGeneric<AudioManager>
 
     public void ResetSounds()
     {
-        musicAS.volume = musicVolume;
-        sfxAS.volume = sfxVolume;
-        gameAS.volume = gameVolume;
+        if(PlayerPrefs.HasKey(musicVolume))
+        {
+            musicAS.volume = PlayerPrefs.GetFloat(musicVolume);
+        }
+        if(PlayerPrefs.HasKey(sfxVolume))
+        {
+            sfxAS.volume = PlayerPrefs.GetFloat(sfxVolume);
+        }
+        if(PlayerPrefs.HasKey(gameVolume))
+        {
+            gameAS.volume = PlayerPrefs.GetFloat(gameVolume);
+        } 
+    }
+
+    public void SetMusicVolume(float _volume)
+    {
+        musicAS.volume = _volume;
+    }
+    public void SetGameVolume(float _volume)
+    {
+        gameAS.volume = _volume;
+    }
+    public void SetSfxVolume(float _volume)
+    {
+        sfxAS.volume = _volume;
     }
 }
 
