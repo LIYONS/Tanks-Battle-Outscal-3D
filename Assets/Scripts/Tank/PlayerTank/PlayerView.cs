@@ -19,12 +19,11 @@ public class PlayerView : MonoBehaviour
     private float movementInput;
     private float turnInput;
 
-
     private ShellServicePool bulletServicePool;
     private float chargingSpeed;
-    private float fireTimer;
+    private float fireTimer=0f;
     private float currentLaunchForce;
-    bool fired;
+    private bool fired=false;
     private void Awake()
     {
         explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
@@ -35,13 +34,11 @@ public class PlayerView : MonoBehaviour
         SetTankObject();
         SetColour();
         SetHealthUI(playerObject.maxHealth);
-
         currentLaunchForce = shellObject.minLaunchForce;
         bulletServicePool = GetComponent<ShellServicePool>();
         aimSlider.value = currentLaunchForce;
-        fired = false;
-        fireTimer = 0;
         chargingSpeed = (shellObject.maxLaunchForce - shellObject.minLaunchForce) / shellObject.maxChargeTime;
+        PlayGameSound(SoundType.TankIdle);
     }
     private void Update()
     {
@@ -94,6 +91,15 @@ public class PlayerView : MonoBehaviour
         if(turnInput!=0)
         {
             playerController.Rotate(turnInput);
+        }
+    }
+
+    private void PlayGameSound(SoundType type)
+    {
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.PlayGameSound(type);
         }
     }
     public void TakeDamage(float amount)

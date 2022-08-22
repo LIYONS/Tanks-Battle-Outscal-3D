@@ -26,8 +26,21 @@ public class ShellView : MonoBehaviour
     public void ExplosionEffect()
     {
         ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();
+        PlayExplosionSound();
         particleSystem.transform.parent = null;
         particleSystem.Play();
+        ReturnShell(particleSystem);
+    }
+    private void PlayExplosionSound()
+    {
+        var instance = AudioManager.Instance;
+        if(instance)
+        {
+            instance.PlaySfx(SoundType.ShellExplode);
+        }
+    }
+    private void ReturnShell(ParticleSystem particleSystem)
+    {
         Destroy(particleSystem.gameObject, particleSystem.main.duration);
         ShellService.Instance.ReturnToPool(shellController);
         gameObject.SetActive(false);

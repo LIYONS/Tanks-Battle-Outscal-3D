@@ -67,6 +67,16 @@ public class EnemyView : MonoBehaviour
         explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
+        PlayDeathSound();
+    }
+
+    private void PlayDeathSound()
+    {
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.PlaySfx(SoundType.TankExplode);
+        }
     }
     public void SetController( EnemyController _controller)
     {

@@ -31,7 +31,7 @@ public class AchievementManager : MonoBehaviour
         }
         if(achievementObject!=null && uiHandler)
         {
-            uiHandler.ShowAchievementUi(achievementObject);
+            uiHandler.OnAchievementUnlocked(achievementObject);
         }
     }
     private AchievementScriptableObject UnlockAchievement(AchievementType _type)

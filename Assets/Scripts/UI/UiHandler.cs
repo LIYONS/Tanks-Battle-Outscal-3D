@@ -30,11 +30,20 @@ public class UiHandler : MonoBehaviour
         totalScore += scoreForKill;
         scoreText.text = defaultText + totalScore;
     }
-    public void ShowAchievementUi(AchievementScriptableObject achievement)
+    private void PlayAchievementSound()
+    {
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.PlaySfx(SoundType.Achievement);
+        }
+    }
+    public void OnAchievementUnlocked(AchievementScriptableObject achievement)
     {
         achievementText.text = defaultAchievementText + achievement.name;
         achievementDescription.text = achievement.achievementDescription;
         achievementPanel.SetActive(true);
+        PlayAchievementSound();
         Invoke(nameof(DeactivateUi), achievemntShowTimer);
     }
     private void DeactivateUi()
