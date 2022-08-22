@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class UiHandler : MonoBehaviour
+public class InGameUiHandler : MonoBehaviour
 {
     [SerializeField] private int scoreForKill;
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -66,6 +66,15 @@ public class UiHandler : MonoBehaviour
     {
         EventHandler.Instance.OnEnemyDeath -= UpdateScore;
         EventHandler.Instance.OnGameOver -= OnGameOver;
+    }
+
+    public void OnButtonClick()
+    {
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.PlaySfx(SoundType.ButtonClick);
+        }
     }
 
     public void OnGameOver()

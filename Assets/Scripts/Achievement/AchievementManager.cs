@@ -4,7 +4,7 @@ public class AchievementManager : MonoBehaviour
 {
    
     [SerializeField] private AchievementList achievementList;
-    [SerializeField] private UiHandler uiHandler;
+    [SerializeField] private InGameUiHandler uiHandler;
    
 
     private void Start()
