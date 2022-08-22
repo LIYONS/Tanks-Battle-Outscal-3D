@@ -58,6 +58,11 @@ public class PlayerController
         await Task.Delay(TimeSpan.FromSeconds(1f));
         await DestroyLevel();
         playerView.OnDeath();
+        var instance = EventHandler.Instance;
+        if (instance)
+        {
+            EventHandler.Instance.InvokeOnGameOver();
+        }
     }
     async Task DestroyAllEnemies()
     {
@@ -92,7 +97,11 @@ public class PlayerController
     {
         if (bulletCount == 10 || bulletCount == 25 || bulletCount == 50)
         {
-            EventHandler.Instance.InvokeBulletAchievement(bulletCount);
+            var instance = EventHandler.Instance;
+            if(instance)
+            {
+                EventHandler.Instance.InvokeBulletAchievement(bulletCount);
+            }   
         }
     }
     public PlayerModel GetPlayerModel()
