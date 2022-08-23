@@ -56,7 +56,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: metal lord SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -132,10 +133,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 512
     - _TextureWidth: 512
-    - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0
-    - _UnderlayOffsetY: 0
-    - _UnderlaySoftness: 0
+    - _UnderlayDilate: 0.2
+    - _UnderlayOffsetX: 0.2
+    - _UnderlayOffsetY: 0.2
+    - _UnderlaySoftness: 0.2
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -150,7 +151,7 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -164,9 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: MetalLord SDF
   m_EditorClassIdentifier: 
-  hashCode: -303173931
+  hashCode: -1458777259
   material: {fileID: -6855559506687004742}
-  materialHashCode: -513347883
+  materialHashCode: 487867221
   m_Version: 1.1.0
   m_SourceFontFileGUID: 0cdcb98a8e7a95c4280b2f8c4705e5d7
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 0cdcb98a8e7a95c4280b2f8c4705e5d7,

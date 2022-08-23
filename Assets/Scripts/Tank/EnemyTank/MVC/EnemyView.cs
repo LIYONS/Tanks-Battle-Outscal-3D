@@ -68,6 +68,7 @@ public class EnemyView : MonoBehaviour
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();
         PlayDeathSound();
+        Destroy(gameObject);
     }
 
     private void PlayDeathSound()

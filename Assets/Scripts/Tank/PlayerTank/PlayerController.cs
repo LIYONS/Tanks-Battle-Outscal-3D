@@ -96,7 +96,7 @@ public class PlayerController
     private void CheckAchievement()
     {
         if (bulletCount == 10 || bulletCount == 25 || bulletCount == 50)
-        {
+        {            
             var instance = EventHandler.Instance;
             if(instance)
             {

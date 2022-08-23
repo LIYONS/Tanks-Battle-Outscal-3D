@@ -37,10 +37,11 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     }
     private void SpawnTank()
     {
-        if (spawnPointIndex == patrolPoints.Length)
+        if (spawnPointIndex == patrolPoints.Length-1)
         {
             spawnPointIndex = 0;
         }
+        spawnPointIndex++;
         currentEnemyCount++;
         int index = Random.Range(0, tankSOList.tankSOList.Count);
         EnemyController controller = new(new EnemyModel(tankSOList.tankSOList[index]));

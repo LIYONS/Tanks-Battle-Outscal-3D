@@ -1,5 +1,11 @@
 using UnityEngine;
 using TMPro;
+
+public enum AchievementStatus
+{
+    Locked,
+    Unlocked
+}
 public class AchievementManager : MonoBehaviour
 {
    
@@ -18,7 +24,7 @@ public class AchievementManager : MonoBehaviour
         {
             if(bulletCount==10)
             {
-                achievementObject= UnlockAchievement(AchievementType.RisingStorm);
+                achievementObject = UnlockAchievement(AchievementType.RisingStorm);
             }
             else if(bulletCount==25)
             {
@@ -37,11 +43,10 @@ public class AchievementManager : MonoBehaviour
     private AchievementScriptableObject UnlockAchievement(AchievementType _type)
     {
         AchievementScriptableObject achievementObject = FindAchievementObject(_type);
-        if (achievementObject)
+        if (achievementObject && ! achievementObject.isAchieved)
         {
             achievementObject.isAchieved = true;
             return achievementObject;
-
         }
         return null;
     }

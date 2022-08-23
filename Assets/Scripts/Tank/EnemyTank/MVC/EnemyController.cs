@@ -1,3 +1,6 @@
+using System;
+using UnityEngine;
+
 public class EnemyController
 {
     public EnemyModel enemyModel;
@@ -29,8 +32,13 @@ public class EnemyController
     private void OnDeath()
     {
         enemyView.OnDeath();
-        enemyView.gameObject.SetActive(false);
     }
+
+    private void Destroy(GameObject gameObject)
+    {
+        throw new NotImplementedException();
+    }
+
     public void SetTankView(EnemyView _enemyView)
     {
         enemyView = _enemyView;

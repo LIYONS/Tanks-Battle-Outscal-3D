@@ -14,6 +14,7 @@ public class InGameUiHandler : MonoBehaviour
     //Pause
     [SerializeField] private GameObject pausePanel;
     private GameManager gameManager;
+    private AudioManager audioManager;
 
     //GameOver
     [SerializeField] private GameObject gameOverPanel;
@@ -36,6 +37,7 @@ public class InGameUiHandler : MonoBehaviour
         gameOverPanel.SetActive(false);
         InitializeScores();
         gameManager = GameManager.Instance;
+        audioManager = AudioManager.Instance;
         Time.timeScale = 1f;
     }
     private void InitializeScores()
@@ -49,7 +51,7 @@ public class InGameUiHandler : MonoBehaviour
         else
         {
             currentHighScore = 0;
-            PlayerPrefs.SetInt(highScore, currentScore);
+            PlayerPrefs.SetInt(highScore, currentHighScore);
             PlayerPrefs.Save();
         }
         highScoreText.text = "HIGH SCORE  : " + currentHighScore;
@@ -71,10 +73,9 @@ public class InGameUiHandler : MonoBehaviour
     }
     private void PlayAchievementSound()
     {
-        var instance = AudioManager.Instance;
-        if (instance)
+        if (audioManager)
         {
-            instance.PlaySfx(SoundType.Achievement);
+            audioManager.PlaySfx(SoundType.Achievement);
         }
     }
     public void OnAchievementUnlocked(AchievementScriptableObject achievement)
@@ -97,10 +98,9 @@ public class InGameUiHandler : MonoBehaviour
 
     public void OnButtonClick()
     {
-        var instance = AudioManager.Instance;
-        if (instance)
+        if (audioManager)
         {
-            instance.PlaySfx(SoundType.ButtonClick);
+            audioManager.PlaySfx(SoundType.ButtonClick);
         }
     }
 
@@ -108,20 +108,15 @@ public class InGameUiHandler : MonoBehaviour
     {
         gameOverPanel.SetActive(true);
         StopSounds();
-        if(PlayerPrefs.HasKey(highScore) && currentScore>PlayerPrefs.GetInt(highScore))
-        {
-            PlayerPrefs.SetInt(highScore, currentScore);
-            PlayerPrefs.Save();
-        }
+        PlayerPrefs.SetInt(highScore, currentHighScore);
     }
 
     public void StopSounds()
     {
-        var instance = AudioManager.Instance;
-        if (instance)
+        if (audioManager)
         {
-            instance.StopMusic();
-            instance.StopGameMusic();
+            audioManager.StopMusic();
+            audioManager.StopGameMusic();
         }
     }
     public void OnPauseButtonPress()
@@ -132,12 +127,20 @@ public class InGameUiHandler : MonoBehaviour
             return;
         }
         pausePanel.SetActive(true);
+        if (audioManager)
+        {
+            audioManager.Mute();
+        }
         Time.timeScale = 0f;
     }
 
     public void Resume()
     {
         pausePanel.SetActive(false);
+        if(audioManager)
+        {
+            audioManager.ResetSounds();
+        }
         Time.timeScale = 1f;
     }
 
