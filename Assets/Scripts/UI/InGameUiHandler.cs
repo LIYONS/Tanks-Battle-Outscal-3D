@@ -49,14 +49,16 @@ public class InGameUiHandler : MonoBehaviour
         else
         {
             currentHighScore = 0;
+            PlayerPrefs.SetInt(highScore, currentScore);
+            PlayerPrefs.Save();
         }
-        highScoreText.text = "High Score : " + currentHighScore;
+        highScoreText.text = "High Scor  : " + currentHighScore;
     }
 
     private void UpdateHighScore()
     {
         currentHighScore = currentScore;
-        highScoreText.text = "High Score : " + currentHighScore;
+        highScoreText.text = "High Score  : " + currentHighScore;
     }
     private void UpdateScore()
     {
@@ -105,10 +107,21 @@ public class InGameUiHandler : MonoBehaviour
     public void OnGameOver()
     {
         gameOverPanel.SetActive(true);
-        if(PlayerPrefs.HasKey(highScore) && PlayerPrefs.GetInt(highScore)<currentScore)
+        StopSounds();
+        if(PlayerPrefs.HasKey(highScore) && currentScore>PlayerPrefs.GetInt(highScore))
         {
             PlayerPrefs.SetInt(highScore, currentScore);
             PlayerPrefs.Save();
+        }
+    }
+
+    public void StopSounds()
+    {
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.StopMusic();
+            instance.StopGameMusic();
         }
     }
     public void OnPauseButtonPress()
@@ -137,7 +150,12 @@ public class InGameUiHandler : MonoBehaviour
     }
     public void ReStart()
     {
-        if(gameManager)
+        var instance = AudioManager.Instance;
+        if (instance)
+        {
+            instance.ResetSounds();
+        }
+        if (gameManager)
         {
             gameManager.ReStart();
         }

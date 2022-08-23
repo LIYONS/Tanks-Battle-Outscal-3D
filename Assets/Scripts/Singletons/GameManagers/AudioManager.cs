@@ -61,6 +61,10 @@ public class AudioManager : MonoSingletonGeneric<AudioManager>
     {
         musicAS.volume = 0f;
     }
+    public void StopGameMusic()
+    {
+        gameAS.volume = 0f;
+    }
 
     public void ResetSounds()
     {

@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38236d59135cb6e4a93591c820d4381c, type: 3}
   m_Name: PlayerShell
   m_EditorClassIdentifier: 
-  tankType: 3
-  shellColor: {r: 0.086111605, g: 0, b: 0.49056602, a: 0}
   maxChargeTime: 0.75
   minLaunchForce: 10
   maxLaunchForce: 25
   nextFireDelay: 0.5
-  maxDamage: 30
+  maxDamage: 50
   explosionRadius: 3
   maxLifeTime: 2

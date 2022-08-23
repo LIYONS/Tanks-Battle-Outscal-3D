@@ -26,16 +26,17 @@ public class MainMenuUiHandler : MonoBehaviour
         gameManager = GameManager.Instance;
         audioManager = AudioManager.Instance;
         SetSliderValues();
+        SetHighScore();
     }
 
     public void SetHighScore()
     {
         if(PlayerPrefs.HasKey(highScore))
         {
-            highScoreText.text = "HIGHSCORE" + PlayerPrefs.GetInt(highScore);
+            highScoreText.text = "HIGHSCORE  : " + PlayerPrefs.GetInt(highScore);
             return;
         }
-        highScoreText.text = "HIGHSCORE" + 0;
+        highScoreText.text = "HIGHSCORE  : " + 0;
     }
     public void StartGame()
     {
