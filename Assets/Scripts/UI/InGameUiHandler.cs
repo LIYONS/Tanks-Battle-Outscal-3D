@@ -20,7 +20,7 @@ public class InGameUiHandler : MonoBehaviour
 
     private int currentScore;
     private int currentHighScore;
-    private const string defaultText = "Score - ";
+    private const string defaultText = "SCORE - ";
     private const string highScore = "highScore";
     private const string defaultAchievementText = "Achievement Unlocked : ";
 
@@ -52,13 +52,13 @@ public class InGameUiHandler : MonoBehaviour
             PlayerPrefs.SetInt(highScore, currentScore);
             PlayerPrefs.Save();
         }
-        highScoreText.text = "High Scor  : " + currentHighScore;
+        highScoreText.text = "HIGH SCORE  : " + currentHighScore;
     }
 
     private void UpdateHighScore()
     {
         currentHighScore = currentScore;
-        highScoreText.text = "High Score  : " + currentHighScore;
+        highScoreText.text = "HIGH SCORE  : " + currentHighScore;
     }
     private void UpdateScore()
     {

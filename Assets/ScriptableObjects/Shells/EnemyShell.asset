@@ -16,6 +16,6 @@ MonoBehaviour:
   minLaunchForce: 10
   maxLaunchForce: 25
   nextFireDelay: 0.5
-  maxDamage: 20
+  maxDamage: 10
   explosionRadius: 3
   maxLifeTime: 2
