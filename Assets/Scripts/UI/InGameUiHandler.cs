@@ -5,6 +5,7 @@ public class InGameUiHandler : MonoBehaviour
 {
     [SerializeField] private int scoreForKill;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
     [SerializeField] private TextMeshProUGUI achievementText;
     [SerializeField] private TextMeshProUGUI achievementDescription;
     [SerializeField] private GameObject achievementPanel;
@@ -17,8 +18,10 @@ public class InGameUiHandler : MonoBehaviour
     //GameOver
     [SerializeField] private GameObject gameOverPanel;
 
-    private int totalScore;
+    private int currentScore;
+    private int currentHighScore;
     private const string defaultText = "Score - ";
+    private const string highScore = "highScore";
     private const string defaultAchievementText = "Achievement Unlocked : ";
 
     private void OnEnable()
@@ -31,16 +34,38 @@ public class InGameUiHandler : MonoBehaviour
         achievementPanel.SetActive(false);
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
-        totalScore = 0;
-        scoreText.text = defaultText + totalScore;
+        InitializeScores();
         gameManager = GameManager.Instance;
         Time.timeScale = 1f;
     }
+    private void InitializeScores()
+    {
+        currentScore = 0;
+        scoreText.text = defaultText + currentScore;
+        if (PlayerPrefs.HasKey(highScore))
+        {
+            currentHighScore = PlayerPrefs.GetInt(highScore);
+        }
+        else
+        {
+            currentHighScore = 0;
+        }
+        highScoreText.text = "High Score : " + currentHighScore;
+    }
 
+    private void UpdateHighScore()
+    {
+        currentHighScore = currentScore;
+        highScoreText.text = "High Score : " + currentHighScore;
+    }
     private void UpdateScore()
     {
-        totalScore += scoreForKill;
-        scoreText.text = defaultText + totalScore;
+        currentScore += scoreForKill;
+        scoreText.text = defaultText + currentScore;
+        if(currentScore>currentHighScore)
+        {
+            UpdateHighScore();
+        }
     }
     private void PlayAchievementSound()
     {
@@ -80,6 +105,11 @@ public class InGameUiHandler : MonoBehaviour
     public void OnGameOver()
     {
         gameOverPanel.SetActive(true);
+        if(PlayerPrefs.HasKey(highScore) && PlayerPrefs.GetInt(highScore)<currentScore)
+        {
+            PlayerPrefs.SetInt(highScore, currentScore);
+            PlayerPrefs.Save();
+        }
     }
     public void OnPauseButtonPress()
     {

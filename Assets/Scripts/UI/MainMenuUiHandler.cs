@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class MainMenuUiHandler : MonoBehaviour
 {
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private int firstLevel;
-
+    [SerializeField] private TextMeshProUGUI highScoreText;
     //Options
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider gameSlider;
@@ -16,6 +16,7 @@ public class MainMenuUiHandler : MonoBehaviour
     private const string musicVolume = "musicVolume";
     private const string gameVolume = "gameVolume";
     private const string sfxVolume = "sfxVolume";
+    private const string highScore = "highScore";
 
     private GameManager gameManager;
     private AudioManager audioManager;
@@ -27,6 +28,15 @@ public class MainMenuUiHandler : MonoBehaviour
         SetSliderValues();
     }
 
+    public void SetHighScore()
+    {
+        if(PlayerPrefs.HasKey(highScore))
+        {
+            highScoreText.text = "HIGHSCORE" + PlayerPrefs.GetInt(highScore);
+            return;
+        }
+        highScoreText.text = "HIGHSCORE" + 0;
+    }
     public void StartGame()
     {
         if(gameManager)
@@ -81,6 +91,7 @@ public class MainMenuUiHandler : MonoBehaviour
         {
             audioManager.SetMusicVolume(musicSlider.value);
             PlayerPrefs.SetFloat(musicVolume, musicSlider.value);
+            PlayerPrefs.Save();
         }
     }
 
@@ -90,6 +101,7 @@ public class MainMenuUiHandler : MonoBehaviour
         {
             audioManager.SetGameVolume(gameSlider.value);
             PlayerPrefs.SetFloat(gameVolume,gameSlider.value);
+            PlayerPrefs.Save();
         }
     }
 
@@ -99,6 +111,7 @@ public class MainMenuUiHandler : MonoBehaviour
         {
             audioManager.SetSfxVolume(sfxSlider.value);
             PlayerPrefs.SetFloat(sfxVolume, sfxSlider.value);
+            PlayerPrefs.Save();
         }
     }
 }
