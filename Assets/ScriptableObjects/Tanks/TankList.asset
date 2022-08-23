@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9673c91575c7e1f4f8ed1fd60f3ea805, type: 3}
   m_Name: TankList
   m_EditorClassIdentifier: 
-  tankList:
+  tankSOList:
   - {fileID: 11400000, guid: 62338e8707978584fa7fc350ea292bf1, type: 2}
-  - {fileID: 11400000, guid: d015201f4e67e7c44918ee236a984b50, type: 2}
   - {fileID: 11400000, guid: 267a28b489aac524281465b725d9a365, type: 2}
+  - {fileID: 11400000, guid: d015201f4e67e7c44918ee236a984b50, type: 2}

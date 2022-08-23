@@ -11,7 +11,7 @@ public class TankPatrolState : TankState
     {
         base.OnEnterState();
         agent = GetComponent<NavMeshAgent>();
-        wayPoints = tankView.GetWayPoints();
+        wayPoints = EnemyService.Instance.GetPatrolPoints();
         Patrol();
     }
     public override void OnExitState()

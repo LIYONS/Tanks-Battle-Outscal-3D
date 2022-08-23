@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyTankView))]
+[RequireComponent(typeof(EnemyView))]
 public abstract class TankState : MonoBehaviour
 {
-    protected EnemyTankView tankView;
+    protected EnemyView tankView;
 
     private void Awake()
     {
-        tankView = GetComponent<EnemyTankView>();
+        tankView = GetComponent<EnemyView>();
     }
     public virtual void OnEnterState()
     {

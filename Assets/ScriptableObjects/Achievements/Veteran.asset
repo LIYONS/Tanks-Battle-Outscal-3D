@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15f9680dc62f014ea33e876999458b9, type: 3}
   m_Name: Veteran
   m_EditorClassIdentifier: 
-  achievementId: 2
+  type: 1
   achievementName: Veteran
   achievementDescription: ' Fire 25 Bullets'
-  isAchieved: 0
+  isAchieved: 1

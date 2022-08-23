@@ -1,22 +1,21 @@
 using UnityEngine;
 using TMPro;
+
+public enum AchievementStatus
+{
+    Locked,
+    Unlocked
+}
 public class AchievementManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI achievementText;
-    [SerializeField] private TextMeshProUGUI achievementDescription;
-    [SerializeField] private GameObject achievementPanel;
-    [SerializeField] private float uiTimer;
+   
     [SerializeField] private AchievementList achievementList;
+    [SerializeField] private InGameUiHandler uiHandler;
+   
 
-    private const string defaultAchievementText = "Achievement Unlocked : ";
-
-    private void OnEnable()
-    {
-        PlayerBulletMovement.BulletAchievement += CheckForBulletAchievement;
-    }
     private void Start()
     {
-        achievementPanel.SetActive(false);
+        EventHandler.Instance.BulletAchievement += CheckForBulletAchievement;
     }
     private void CheckForBulletAchievement(int bulletCount)
     {
@@ -25,7 +24,7 @@ public class AchievementManager : MonoBehaviour
         {
             if(bulletCount==10)
             {
-                achievementObject= UnlockAchievement(AchievementType.RisingStorm);
+                achievementObject = UnlockAchievement(AchievementType.RisingStorm);
             }
             else if(bulletCount==25)
             {
@@ -36,39 +35,29 @@ public class AchievementManager : MonoBehaviour
                 achievementObject = UnlockAchievement(AchievementType.WarLord);
             }
         }
-        if(achievementObject!=null)
+        if(achievementObject!=null && uiHandler)
         {
-            ShowAchievementUi(achievementObject);
+            uiHandler.OnAchievementUnlocked(achievementObject);
         }
     }
     private AchievementScriptableObject UnlockAchievement(AchievementType _type)
     {
         AchievementScriptableObject achievementObject = FindAchievementObject(_type);
-        if (achievementObject)
+        if (achievementObject && ! achievementObject.isAchieved)
         {
             achievementObject.isAchieved = true;
             return achievementObject;
-
         }
         return null;
     }
-    private void ShowAchievementUi(AchievementScriptableObject achievement)
-    {
-        achievementText.text = defaultAchievementText + achievement.name;
-        achievementDescription.text = achievement.achievementDescription;
-        achievementPanel.SetActive(true);
-        Invoke(nameof(DeactivateUi), uiTimer);
-    }
+   
     private AchievementScriptableObject FindAchievementObject(AchievementType _type)
     {
         return achievementList.List.Find(ach => ach.type == _type);
     }
-    private void DeactivateUi()
-    {
-        achievementPanel.SetActive(false);
-    }
+    
     private void OnDisable()
     {
-        PlayerBulletMovement.BulletAchievement -= CheckForBulletAchievement;
+        EventHandler.Instance.BulletAchievement -= CheckForBulletAchievement;
     }
 }

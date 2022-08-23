@@ -2,15 +2,12 @@ using UnityEngine;
 using UnityEngine.AI;
 public class TankAttackState : TankState
 {
-    [SerializeField] private float bulletspeed;
     [SerializeField] private Transform fireTransform;
-    [SerializeField] private BulletExplosion bulletPrefab;
     [Range(0,5)] 
     [SerializeField] private float timeBtwFire;
-    [SerializeField] private BulletScriptableObject bulletObject;
+    [SerializeField] private ShellObject bulletObject;
     [SerializeField] private float facePlayerSmoothness;
 
-    private BulletServicePool bulletServicePool;
     private NavMeshAgent agent;
     private Vector3 agentVelocity;
     private float timer;
@@ -19,7 +16,6 @@ public class TankAttackState : TankState
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        bulletServicePool = GetComponent<BulletServicePool>();
     }
     public override void OnEnterState()
     {
@@ -50,9 +46,9 @@ public class TankAttackState : TankState
 
     private void Fire()
     {
-        BulletExplosion bulletInstance = bulletServicePool.GetBullet(bulletPrefab, fireTransform);
-        bulletInstance.SetComponents(bulletObject,this.gameObject,bulletServicePool);
-        bulletInstance.GetComponent<Rigidbody>(). velocity = bulletspeed * fireTransform.forward;
+        Rigidbody shellInstance= ShellService.Instance.GetShell(bulletObject);
+        shellInstance.transform.SetPositionAndRotation(fireTransform.position, fireTransform.rotation);
+        shellInstance.velocity = bulletObject.minLaunchForce* fireTransform.forward;
     }
     public void SetTarget(Transform _target)
     {
