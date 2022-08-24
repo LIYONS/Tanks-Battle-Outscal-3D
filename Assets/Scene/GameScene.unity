@@ -3582,14 +3582,14 @@ MonoBehaviour:
   enemyPrefab: {fileID: 6413794110404587023, guid: dfc843c747b67954fb9e9bfea39c411f,
     type: 3}
   tankSOList: {fileID: 11400000, guid: 101e3f2a56a951d45ae0730937c1155f, type: 2}
-  numberOfEnemies: 1
+  numberOfEnemies: 3
   patrolPoints:
   - {fileID: 85978645}
   - {fileID: 448761828}
   - {fileID: 1478499423}
   - {fileID: 181014444}
   - {fileID: 1393963923}
-  timeBtwSpawns: 50
+  timeBtwSpawns: 30
   spawnDelay: 5
 --- !u!1 &1567915946
 GameObject:
