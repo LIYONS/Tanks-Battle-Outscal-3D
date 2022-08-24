@@ -43,14 +43,27 @@ public class AchievementManager : MonoBehaviour
     private AchievementScriptableObject UnlockAchievement(AchievementType _type)
     {
         AchievementScriptableObject achievementObject = FindAchievementObject(_type);
-        if (achievementObject && ! achievementObject.isAchieved)
+        if (achievementObject &&  ! IsUnlocked(achievementObject))
         {
-            achievementObject.isAchieved = true;
+            PlayerPrefs.SetInt(achievementObject.name, (int)AchievementStatus.Unlocked);
             return achievementObject;
         }
         return null;
     }
-   
+
+    private bool IsUnlocked(AchievementScriptableObject achievementObject)
+    {
+        if(PlayerPrefs.HasKey(achievementObject.name))
+        {
+            if(PlayerPrefs.GetInt(achievementObject.name)==(int)AchievementStatus.Unlocked)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     private AchievementScriptableObject FindAchievementObject(AchievementType _type)
     {
         return achievementList.List.Find(ach => ach.type == _type);
