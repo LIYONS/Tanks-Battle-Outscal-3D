@@ -16,12 +16,14 @@ public class EnemyView : MonoBehaviour
     private EnemyController enemyController;
     private TankScriptableObject enemyObject;
     private TankState currentState;
+    private bool isAssigned = false;
 
     private void Awake()
     {
         explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
         explosionEffect.gameObject.SetActive(false);
     }
+
     private void Start()
     {
         enemyController.SetTankView(this);
@@ -55,6 +57,16 @@ public class EnemyView : MonoBehaviour
         currentState.OnExitState();
         newState.OnEnterState();
         currentState = newState;
+        if((currentState==GetComponent<TankChaseState>() || currentState==GetComponent<TankAttackState>()) && !isAssigned)
+        {
+            isAssigned = true;
+            CameraControl.Instance.AddCameraTargetPosition(this.transform);
+        }
+        if((currentState != GetComponent<TankChaseState>() && currentState != GetComponent<TankAttackState>()) && isAssigned)
+        {
+            isAssigned = false;
+            CameraControl.Instance.RemoveCameraTargetPosition(transform);
+        }
     }
     void SetUiInactive()
     {
@@ -64,6 +76,10 @@ public class EnemyView : MonoBehaviour
     public void OnDeath()
     {
         EventHandler.Instance.InvokeEnemyDeath();
+        if(isAssigned)
+        {
+            CameraControl.Instance.RemoveCameraTargetPosition(transform);
+        }
         explosionEffect.gameObject.SetActive(true);
         explosionEffect.gameObject.transform.position = transform.position;
         explosionEffect.Play();

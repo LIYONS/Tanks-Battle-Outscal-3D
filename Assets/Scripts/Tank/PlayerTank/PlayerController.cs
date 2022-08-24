@@ -54,15 +54,11 @@ public class PlayerController
     }
     async private void OnDeath()
     {
+        EventHandler.Instance.InvokeOnGameOver();
         await DestroyAllEnemies();
         await Task.Delay(TimeSpan.FromSeconds(1f));
         await DestroyLevel();
         playerView.OnDeath();
-        var instance = EventHandler.Instance;
-        if (instance)
-        {
-            EventHandler.Instance.InvokeOnGameOver();
-        }
     }
     async Task DestroyAllEnemies()
     {

@@ -10,8 +10,9 @@ public class PlayerService : MonoSingletonGeneric<PlayerService>
     private TankScriptableObject playerObject;
     private PlayerController playerController;
     private PlayerModel playerModel;
-    void Awake()
+    protected override  void Awake()
     {
+        base.Awake();
         CreatePlayerTank();      
     }
 

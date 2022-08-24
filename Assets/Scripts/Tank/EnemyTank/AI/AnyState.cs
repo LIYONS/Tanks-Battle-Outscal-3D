@@ -6,15 +6,9 @@ public class AnyState : TankState
     [SerializeField] private float attackDistance;
     [SerializeField] private LayerMask tankLayer;
 
-    private bool isAttacking;
-    private bool isChasing;
+    private bool isAttacking=false;
+    private bool isChasing=false;
     private float distance;
-    public void Start()
-    {
-        isAttacking = false;
-        isChasing = false;
-    }
-
     private void Update()
     {
         Transform target = TargetInRange();
@@ -45,6 +39,7 @@ public class AnyState : TankState
         {
             tankView.ChangeState(GetComponent<TankPatrolState>());
             isChasing = false;
+
         }
         
     }
@@ -60,4 +55,6 @@ public class AnyState : TankState
         }
         return null;
     }
+
+
 }

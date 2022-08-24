@@ -39,6 +39,7 @@ public class PlayerView : MonoBehaviour
         aimSlider.value = currentLaunchForce;
         chargingSpeed = (shellObject.maxLaunchForce - shellObject.minLaunchForce) / shellObject.maxChargeTime;
         PlayGameSound(SoundType.TankIdle);
+        CameraControl.Instance.AddCameraTargetPosition(transform);
     }
     private void Update()
     {
