@@ -15,9 +15,13 @@ public class ShellService : MonoSingletonGeneric<ShellService>
     public Rigidbody GetShell(ShellObject shellObject)
     {
         ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
-        ShellView shellView = shellController.GetShellView;
-        PlayFireSound();
-        return shellView.GetComponent<Rigidbody>();
+        if (shellController != null)
+        {
+            ShellView shellView = shellController.GetShellView;
+            PlayFireSound();
+            return shellView.GetComponent<Rigidbody>();
+        }
+        return null;
     }
 
     private void PlayFireSound()

@@ -47,8 +47,11 @@ public class TankAttackState : TankState
     private void Fire()
     {
         Rigidbody shellInstance= ShellService.Instance.GetShell(bulletObject);
-        shellInstance.transform.SetPositionAndRotation(fireTransform.position, fireTransform.rotation);
-        shellInstance.velocity = bulletObject.minLaunchForce* fireTransform.forward;
+        if (shellInstance)
+        {
+            shellInstance.transform.SetPositionAndRotation(fireTransform.position, fireTransform.rotation);
+            shellInstance.velocity = bulletObject.minLaunchForce * fireTransform.forward;
+        }
     }
     public void SetTarget(Transform _target)
     {

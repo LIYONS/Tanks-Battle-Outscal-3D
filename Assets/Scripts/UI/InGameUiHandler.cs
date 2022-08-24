@@ -149,14 +149,19 @@ public class InGameUiHandler : MonoBehaviour
         if(gameManager)
         {
             gameManager.LoadMainMenu();
+            if(audioManager)
+            {
+                audioManager.StopGameMusic();
+            }
         }
     }
     public void ReStart()
     {
-        var instance = AudioManager.Instance;
-        if (instance)
+        if (audioManager)
         {
-            instance.ResetSounds();
+            audioManager.PlayMusic(SoundType.BackGroundMusic);
+            audioManager.PlayGameSound(SoundType.TankIdle);
+            audioManager.ResetSounds();
         }
         if (gameManager)
         {

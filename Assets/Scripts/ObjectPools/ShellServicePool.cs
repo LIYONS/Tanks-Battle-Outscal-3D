@@ -15,8 +15,12 @@ public class ShellServicePool : GenericPool<ShellController>
         shellPrefab = _shellPrefab;
         shellObject = _shellObject;
         shellController = GetItem();
-        shellController.GetShellView.gameObject.SetActive(true);
-        return shellController;
+        if (shellController != null && shellController.GetShellView !=null)
+        {
+            shellController.GetShellView.gameObject.SetActive(true);
+            return shellController;
+        }
+        return null;
     }
     public override ShellController CreateItem()
     {

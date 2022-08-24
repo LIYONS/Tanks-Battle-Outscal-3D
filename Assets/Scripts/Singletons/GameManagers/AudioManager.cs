@@ -59,10 +59,12 @@ public class AudioManager : MonoSingletonGeneric<AudioManager>
     }
     public void StopMusic()
     {
+        musicAS.clip = null;
         musicAS.volume = 0f;
     }
     public void StopGameMusic()
     {
+        gameAS.clip = null;
         gameAS.volume = 0f;
     }
 

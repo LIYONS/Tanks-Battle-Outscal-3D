@@ -90,8 +90,11 @@ public class PlayerController
         bulletCount++;
         CheckAchievement();
         Rigidbody shellInstance = ShellService.Instance.GetShell(playerView.GetShellObject);
-        shellInstance.transform.SetPositionAndRotation(playerView.GetFireTransform.position, playerView.GetFireTransform.rotation);
-        shellInstance.velocity = velocity;
+        if (shellInstance)
+        {
+            shellInstance.transform.SetPositionAndRotation(playerView.GetFireTransform.position, playerView.GetFireTransform.rotation);
+            shellInstance.velocity = velocity;
+        }
     }
     private void CheckAchievement()
     {
