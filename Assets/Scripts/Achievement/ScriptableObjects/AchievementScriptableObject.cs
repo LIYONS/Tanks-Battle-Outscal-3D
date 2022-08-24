@@ -14,7 +14,6 @@ public class AchievementScriptableObject : ScriptableObject
     public AchievementType type;
     public string achievementName;
     public string achievementDescription;
-    public bool isAchieved;
 }
 
     
