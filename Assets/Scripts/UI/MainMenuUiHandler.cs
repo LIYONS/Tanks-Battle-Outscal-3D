@@ -7,6 +7,7 @@ using TMPro;
 public class MainMenuUiHandler : MonoBehaviour
 {
     [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private int firstLevel;
     [SerializeField] private TextMeshProUGUI highScoreText;
     //Options
@@ -23,6 +24,7 @@ public class MainMenuUiHandler : MonoBehaviour
     private void Start()
     {
         optionsMenu.SetActive(false);
+        mainMenuPanel.SetActive(true);
         gameManager = GameManager.Instance;
         audioManager = AudioManager.Instance;
         SetSliderValues();
@@ -55,11 +57,13 @@ public class MainMenuUiHandler : MonoBehaviour
 
     public void OnOptionButtonPress()
     {
+        mainMenuPanel.SetActive(false);
         optionsMenu.SetActive(true);
     }
 
     public void OnOptionsClose()
     {
+        mainMenuPanel.SetActive(true);
         optionsMenu.SetActive(false);
     }
     public void Quit()
