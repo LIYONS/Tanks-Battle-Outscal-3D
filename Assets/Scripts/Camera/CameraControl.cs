@@ -73,16 +73,8 @@ namespace TankGame.CameraService
                 {
                     continue;
                 }
-                if (i == 0 && !isGameOver)
-                {
-                    averagePos += targets[i].position * 3;
-                    numTargets += 3;
-                }
-                else
-                {
-                    averagePos += targets[i].position;
-                    numTargets++;
-                }
+                averagePos += targets[i].position;
+                numTargets++;
             }
 
             if (numTargets > 0)

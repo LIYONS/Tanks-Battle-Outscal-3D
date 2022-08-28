@@ -27,11 +27,11 @@ namespace TankGame.Tanks.EnemyServices
             {
                 tankView.ChangeState(StateType.Idle);
             }
-            else if (agent.remainingDistance < 5f && agent.isStopped == true)
-            {
-                agent.ResetPath();
-                agent.SetDestination(target.position);
-            }
+            //else if (agent.remainingDistance < 5f && agent.isStopped)
+            //{
+            //    agent.ResetPath();
+            //    agent.SetDestination(target.position);
+            //}
         }
 
         public void Patrol()

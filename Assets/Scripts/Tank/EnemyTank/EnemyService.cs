@@ -8,7 +8,7 @@ namespace TankGame.Tanks.EnemyServices
     public class EnemyService : MonoSingletonGeneric<EnemyService>
     {
         [SerializeField] private EnemyView enemyPrefab;
-        [SerializeField] private TankList tankSOList;
+        [SerializeField] private TankSOList tankSOList;
         [SerializeField] private int numberOfEnemies;
         [SerializeField] private Transform[] patrolPoints;
         [SerializeField] private float timeBtwSpawns;

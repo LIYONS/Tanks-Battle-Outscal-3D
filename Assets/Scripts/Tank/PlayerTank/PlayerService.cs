@@ -6,7 +6,7 @@ namespace TankGame.Tanks.PlayerServices
     public class PlayerService : MonoSingletonGeneric<PlayerService>
     {
         [SerializeField] private PlayerView playerView;
-        [SerializeField] private TankList tankList;
+        [SerializeField] private TankSOList tankList;
         [SerializeField] private TankType tankType;
 
         private TankScriptableObject playerObject;
