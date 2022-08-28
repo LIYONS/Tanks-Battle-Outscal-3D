@@ -1,60 +1,61 @@
 using UnityEngine;
-
-public class AnyState : TankState
+using TankGame.Tanks.PlayerServices;
+namespace TankGame.Tanks.EnemyServices
 {
-    [SerializeField] private float chaseRadius;
-    [SerializeField] private float attackDistance;
-    [SerializeField] private LayerMask tankLayer;
-
-    private bool isAttacking=false;
-    private bool isChasing=false;
-    private float distance;
-    private void Update()
+    public class AnyState : TankState
     {
-        Transform target = TargetInRange();
-        if(target!=null)
+        [SerializeField] private float chaseRadius;
+        [SerializeField] private float attackDistance;
+        [SerializeField] private LayerMask tankLayer;
+
+        private bool isAttacking = false;
+        private bool isChasing = false;
+        private float distance;
+        private void Update()
         {
-            if(!isChasing && !isAttacking)
+            Transform target = TargetInRange();
+            if (target != null)
             {
-                GetComponent<TankChaseState>().SetTarget(target);
-                tankView.ChangeState(GetComponent<TankChaseState>());
+                if (!isChasing && !isAttacking)
+                {
+                    GetComponent<TankChaseState>().SetTarget(target);
+                    tankView.ChangeState(StateType.Chase);
+                    isChasing = true;
+                }
+                distance = Vector3.Distance(transform.position, target.position);
+                if (distance < attackDistance && !isAttacking)
+                {
+                    GetComponent<TankAttackState>().SetTarget(target);
+                    tankView.ChangeState(StateType.Attack);
+                    isAttacking = true;
+                    isChasing = false;
+                }
+            }
+            if (distance > attackDistance && isAttacking)
+            {
+                tankView.ChangeState(StateType.Chase);
+                isAttacking = false;
                 isChasing = true;
             }
-            distance = Vector3.Distance(transform.position, target.position);
-            if (distance < attackDistance && !isAttacking)
+            if (target == null && isChasing)
             {
-                GetComponent<TankAttackState>().SetTarget(target);
-                tankView.ChangeState(GetComponent<TankAttackState>());
-                isAttacking = true;
+                tankView.ChangeState(StateType.Patrol);
                 isChasing = false;
+
             }
-        }
-        if (distance > attackDistance && isAttacking)
-        {
-            tankView.ChangeState(GetComponent<TankChaseState>());
-            isAttacking = false;
-            isChasing = true;
-        }
-        if(target==null && isChasing)
-        {
-            tankView.ChangeState(GetComponent<TankPatrolState>());
-            isChasing = false;
 
         }
-        
-    }
-    private Transform TargetInRange()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRadius, tankLayer);
-        for(int i=0;i<colliders.Length;i++)
+        private Transform TargetInRange()
         {
-            if(colliders[i].tag=="Player")
+            Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRadius, tankLayer);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                return colliders[i].transform;
+                if (colliders[i].GetComponent<PlayerView>() != null)
+                {
+                    return colliders[i].transform;
+                }
             }
+            return null;
         }
-        return null;
     }
-
-
 }

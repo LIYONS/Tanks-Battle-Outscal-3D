@@ -1,51 +1,55 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TankPatrolState : TankState
+
+namespace TankGame.Tanks.EnemyServices
 {
-    private NavMeshAgent agent;
-    private Transform[] wayPoints;
-    private int wayPointIndex;
-    private Transform target;
-    public override void OnEnterState()
+    public class TankPatrolState : TankState
     {
-        base.OnEnterState();
-        agent = GetComponent<NavMeshAgent>();
-        wayPoints = EnemyService.Instance.GetPatrolPoints();
-        Patrol();
-    }
-    public override void OnExitState()
-    {
-        base.OnExitState();
-    }
-    private void FixedUpdate()
-    {
-        if (agent.remainingDistance < 2f)
+        private NavMeshAgent agent;
+        private Transform[] wayPoints;
+        private int wayPointIndex;
+        private Transform target;
+        public override void OnEnterState()
         {
-            tankView.ChangeState(GetComponent<TankIdleState>());
+            base.OnEnterState();
+            agent = GetComponent<NavMeshAgent>();
+            wayPoints = EnemyService.Instance.GetPatrolPoints();
+            Patrol();
         }
-        else if (agent.remainingDistance < 5f && agent.isStopped==true)
+        public override void OnExitState()
         {
-            agent.ResetPath();
+            base.OnExitState();
+        }
+        private void FixedUpdate()
+        {
+            if (agent.remainingDistance < 2f)
+            {
+                tankView.ChangeState(StateType.Idle);
+            }
+            //else if (agent.remainingDistance < 5f && agent.isStopped)
+            //{
+            //    agent.ResetPath();
+            //    agent.SetDestination(target.position);
+            //}
+        }
+
+        public void Patrol()
+        {
+            IterateWayPointIndex();
+            target = wayPoints[wayPointIndex];
             agent.SetDestination(target.position);
         }
-    }
 
-    public void Patrol()
-    {
-        IterateWayPointIndex();
-        target = wayPoints[wayPointIndex];
-        agent.SetDestination(target.position);
-    }
-
-    void IterateWayPointIndex()
-    {
-        int temp;
-        do
+        private void IterateWayPointIndex()
         {
-            temp = Random.Range(0, wayPoints.Length);
+            int temp;
+            do
+            {
+                temp = Random.Range(0, wayPoints.Length);
+            }
+            while (temp == wayPointIndex);
+            wayPointIndex = temp;
         }
-        while (temp == wayPointIndex);
-        wayPointIndex = temp;
     }
 }

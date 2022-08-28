@@ -1,26 +1,30 @@
 using UnityEngine;
 
-public class TankIdleState : TankState
-{
-     private float idleTime;
-     private float timeElapsed;
-    public override void OnEnterState()
-    {
-        base.OnEnterState();
-        idleTime = Random.Range(0,5);
-    }
 
-    public override void OnExitState()
+namespace TankGame.Tanks.EnemyServices
+{
+    public class TankIdleState : TankState
     {
-        base.OnExitState();
-        timeElapsed = 0;
-    }
-    private void Update()
-    {
-        timeElapsed += Time.deltaTime;
-        if (timeElapsed > idleTime)
+        private float idleTime;
+        private float timeElapsed;
+        public override void OnEnterState()
         {
-            tankView.ChangeState(GetComponent<TankPatrolState>());
+            base.OnEnterState();
+            idleTime = Random.Range(0, 5);
+        }
+
+        public override void OnExitState()
+        {
+            base.OnExitState();
+            timeElapsed = 0;
+        }
+        private void Update()
+        {
+            timeElapsed += Time.deltaTime;
+            if (timeElapsed > idleTime)
+            {
+                tankView.ChangeState(StateType.Patrol);
+            }
         }
     }
 }

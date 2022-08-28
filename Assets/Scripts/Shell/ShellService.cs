@@ -1,39 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TankGame.GameManagers;
+using TankGame.GlobalServices;
 
-public class ShellService : MonoSingletonGeneric<ShellService>
+namespace TankGame.Shell
 {
-    [SerializeField] ShellView shellPrefab;
-    private ShellServicePool shellServicePool;
-
-    private void OnEnable()
+    public class ShellService : MonoSingletonGeneric<ShellService>
     {
-        shellServicePool = GetComponent<ShellServicePool>();
-    }
+        [SerializeField] private ShellView shellPrefab;
 
-    public Rigidbody GetShell(ShellObject shellObject)
-    {
-        ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
-        if (shellController != null)
+        private ShellServicePool shellServicePool;
+
+        private void OnEnable()
         {
-            ShellView shellView = shellController.GetShellView;
-            PlayFireSound();
-            return shellView.GetComponent<Rigidbody>();
+            shellServicePool = GetComponent<ShellServicePool>();
         }
-        return null;
-    }
 
-    private void PlayFireSound()
-    {
-        var instance = AudioManager.Instance;
-        if (instance)
+        public void GetShell(ShellObject shellObject,Transform spawnPoint,Vector3 velocity)
         {
-            instance.PlaySfx(SoundType.Fire);
+            ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
+            if (shellController != null)
+            {
+                ShellView shellView = shellController.GetShellView;
+                PlayFireSound();
+                shellView.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+                shellView.GetComponent<Rigidbody>().velocity = velocity;
+            }
         }
-    }
-    public void ReturnToPool(ShellController shellController)
-    {
-        shellServicePool.ReturnItem(shellController);
+
+        private void PlayFireSound()
+        {
+            var instance = AudioManager.Instance;
+            if (instance)
+            {
+                instance.PlaySound(SoundType.Fire);
+            }
+        }
+        public void ReturnToPool(ShellController shellController)
+        {
+            shellServicePool.ReturnItem(shellController);
+        }
     }
 }
