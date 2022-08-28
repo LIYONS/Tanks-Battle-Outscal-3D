@@ -36,7 +36,7 @@ public class ShellView : MonoBehaviour
         var instance = AudioManager.Instance;
         if(instance)
         {
-            instance.PlaySfx(SoundType.ShellExplode);
+            instance.PlaySound(SoundType.ShellExplode);
         }
     }
     private void ReturnShell(ParticleSystem particleSystem)

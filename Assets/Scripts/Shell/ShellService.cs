@@ -29,7 +29,7 @@ public class ShellService : MonoSingletonGeneric<ShellService>
         var instance = AudioManager.Instance;
         if (instance)
         {
-            instance.PlaySfx(SoundType.Fire);
+            instance.PlaySound(SoundType.Fire);
         }
     }
     public void ReturnToPool(ShellController shellController)

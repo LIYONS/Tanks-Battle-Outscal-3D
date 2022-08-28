@@ -13,7 +13,7 @@ public class InGameUiHandler : MonoBehaviour
 
     //Pause
     [SerializeField] private GameObject pausePanel;
-    private GameManager gameManager;
+    private SceneManager gameManager;
     private AudioManager audioManager;
 
     //GameOver
@@ -36,7 +36,7 @@ public class InGameUiHandler : MonoBehaviour
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         InitializeScores();
-        gameManager = GameManager.Instance;
+        gameManager = SceneManager.Instance;
         audioManager = AudioManager.Instance;
         Time.timeScale = 1f;
     }
@@ -75,7 +75,7 @@ public class InGameUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.PlaySfx(SoundType.Achievement);
+            audioManager.PlaySound(SoundType.Achievement);
         }
     }
     public void OnAchievementUnlocked(AchievementScriptableObject achievement)
@@ -100,7 +100,7 @@ public class InGameUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.PlaySfx(SoundType.ButtonClick);
+            audioManager.PlaySound(SoundType.ButtonClick);
         }
     }
 
@@ -115,8 +115,8 @@ public class InGameUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.StopMusic();
-            audioManager.StopGameMusic();
+            audioManager.StopAudio(AudioSourceType.Music);
+            audioManager.StopAudio(AudioSourceType.Game);
         }
     }
     public void OnPauseButtonPress()
@@ -151,7 +151,7 @@ public class InGameUiHandler : MonoBehaviour
             gameManager.LoadMainMenu();
             if(audioManager)
             {
-                audioManager.StopGameMusic();
+                audioManager.StopAudio(AudioSourceType.Game);
             }
         }
     }
@@ -159,8 +159,8 @@ public class InGameUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.PlayMusic(SoundType.BackGroundMusic);
-            audioManager.PlayGameSound(SoundType.TankIdle);
+            audioManager.PlaySound(SoundType.BackGroundMusic);
+            audioManager.PlaySound(SoundType.TankIdle);
             audioManager.ResetSounds();
         }
         if (gameManager)

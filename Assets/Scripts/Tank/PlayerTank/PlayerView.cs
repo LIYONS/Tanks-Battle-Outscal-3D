@@ -100,7 +100,7 @@ public class PlayerView : MonoBehaviour
         var instance = AudioManager.Instance;
         if (instance)
         {
-            instance.PlayGameSound(type);
+            instance.PlaySound(type);
         }
     }
     public void TakeDamage(float amount)

@@ -92,7 +92,7 @@ public class EnemyView : MonoBehaviour
         var instance = AudioManager.Instance;
         if (instance)
         {
-            instance.PlaySfx(SoundType.TankExplode);
+            instance.PlaySound(SoundType.TankExplode);
         }
     }
     public void SetController( EnemyController _controller)

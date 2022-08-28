@@ -14,18 +14,18 @@ public class MainMenuUiHandler : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider gameSlider;
     [SerializeField] private Slider sfxSlider;
-    private const string musicVolume = "musicVolume";
-    private const string gameVolume = "gameVolume";
-    private const string sfxVolume = "sfxVolume";
-    private const string highScore = "highScore";
+    private const string MUSIC_VOLUME = "musicVolume";
+    private const string GAME_VOLUME = "gameVolume";
+    private const string SFX_VOLUME = "sfxVolume";
+    private const string HIGH_SCORE = "highScore";
 
-    private GameManager gameManager;
+    private SceneManager gameManager;
     private AudioManager audioManager;
     private void Start()
     {
         optionsMenu.SetActive(false);
         mainMenuPanel.SetActive(true);
-        gameManager = GameManager.Instance;
+        gameManager = SceneManager.Instance;
         audioManager = AudioManager.Instance;
         SetSliderValues();
         SetHighScore();
@@ -33,9 +33,9 @@ public class MainMenuUiHandler : MonoBehaviour
 
     public void SetHighScore()
     {
-        if(PlayerPrefs.HasKey(highScore))
+        if(PlayerPrefs.HasKey(HIGH_SCORE))
         {
-            highScoreText.text = "HIGHSCORE  : " + PlayerPrefs.GetInt(highScore);
+            highScoreText.text = "HIGHSCORE  : " + PlayerPrefs.GetInt(HIGH_SCORE);
             return;
         }
         highScoreText.text = "HIGHSCORE  : " + 0;
@@ -51,7 +51,7 @@ public class MainMenuUiHandler : MonoBehaviour
     {
         if(audioManager)
         {
-            audioManager.PlaySfx(SoundType.ButtonClick);
+            audioManager.PlaySound(SoundType.ButtonClick);
         }
     }
 
@@ -77,25 +77,25 @@ public class MainMenuUiHandler : MonoBehaviour
     //OptionsMenu
     public void SetSliderValues()
     {
-        if (PlayerPrefs.HasKey(musicVolume))
+        if (PlayerPrefs.HasKey(MUSIC_VOLUME))
         {
-            musicSlider.value = PlayerPrefs.GetFloat(musicVolume);
+            musicSlider.value = PlayerPrefs.GetFloat(MUSIC_VOLUME);
         }
-        if (PlayerPrefs.HasKey(sfxVolume))
+        if (PlayerPrefs.HasKey(SFX_VOLUME))
         {
-            sfxSlider.value = PlayerPrefs.GetFloat(sfxVolume);
+            sfxSlider.value = PlayerPrefs.GetFloat(SFX_VOLUME);
         }
-        if (PlayerPrefs.HasKey(gameVolume))
+        if (PlayerPrefs.HasKey(GAME_VOLUME))
         {
-            gameSlider.value = PlayerPrefs.GetFloat(gameVolume);
+            gameSlider.value = PlayerPrefs.GetFloat(GAME_VOLUME);
         }
     }
     public void OnMusicSliderChanaged()
     {
         if (audioManager)
         {
-            audioManager.SetMusicVolume(musicSlider.value);
-            PlayerPrefs.SetFloat(musicVolume, musicSlider.value);
+            audioManager.SetVolume(AudioSourceType.Music, musicSlider.value);
+            PlayerPrefs.SetFloat(MUSIC_VOLUME, musicSlider.value);
             PlayerPrefs.Save();
         }
     }
@@ -104,8 +104,8 @@ public class MainMenuUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.SetGameVolume(gameSlider.value);
-            PlayerPrefs.SetFloat(gameVolume,gameSlider.value);
+            audioManager.SetVolume(AudioSourceType.Game, gameSlider.value);
+            PlayerPrefs.SetFloat(GAME_VOLUME,gameSlider.value);
             PlayerPrefs.Save();
         }
     }
@@ -114,8 +114,8 @@ public class MainMenuUiHandler : MonoBehaviour
     {
         if (audioManager)
         {
-            audioManager.SetSfxVolume(sfxSlider.value);
-            PlayerPrefs.SetFloat(sfxVolume, sfxSlider.value);
+            audioManager.SetVolume(AudioSourceType.Sfx,sfxSlider.value);
+            PlayerPrefs.SetFloat(SFX_VOLUME, sfxSlider.value);
             PlayerPrefs.Save();
         }
     }
