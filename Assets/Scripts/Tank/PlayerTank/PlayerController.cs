@@ -4,6 +4,7 @@ using UnityEngine;
 using TankGame.GameManagers;
 using TankGame.Tanks.EnemyServices;
 using TankGame.Shell;
+using System.Collections.Generic;
 
 namespace TankGame.Tanks.PlayerServices
 {
@@ -15,8 +16,6 @@ namespace TankGame.Tanks.PlayerServices
         private Rigidbody rb;
         private float currentHealth;
         private bool isDead;
-
-        private int bulletCount;
         public PlayerController(PlayerModel _model)
         {
             playerModel = _model;
@@ -53,60 +52,30 @@ namespace TankGame.Tanks.PlayerServices
             playerView.SetHealthUI(currentHealth);
             if (currentHealth <= 0 && !isDead)
             {
+                EventManager.Instance.InvokeOnGameOver();
                 isDead = true;
                 OnDeath();
             }
         }
         async private void OnDeath()
         {
-            EventManager.Instance.InvokeOnGameOver();
             await DestroyAllEnemies();
             await Task.Delay(TimeSpan.FromSeconds(1f));
-            await DestroyLevel();
-            playerView.OnDeath();
         }
-        async Task DestroyAllEnemies()
+        async private Task DestroyAllEnemies()
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            for (int i = 0; i < enemies.Length; i++)
+            List<EnemyController> enemies = EnemyService.Instance.GetEnemies();
+            for (int i = 0; i < enemies.Count; i++)
             {
-                EnemyView enemyTankView = enemies[i].GetComponent<EnemyView>();
-                enemyTankView.TakeDamage(tankObject.maxHealth);
-            }
-            await Task.Yield();
-        }
-        async Task DestroyLevel()
-        {
-            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Level");
-            for (int i = 0; i < gameObjects.Length; i++)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(.2f));
-                gameObjects[i].SetActive(false);
+                enemies[i].OnDeath();
             }
             await Task.Yield();
         }
 
         public void Fire(Vector3 velocity)
         {
-            bulletCount++;
-            CheckAchievement();
-            Rigidbody shellInstance = ShellService.Instance.GetShell(playerView.GetShellObject);
-            if (shellInstance)
-            {
-                shellInstance.transform.SetPositionAndRotation(playerView.GetFireTransform.position, playerView.GetFireTransform.rotation);
-                shellInstance.velocity = velocity;
-            }
-        }
-        private void CheckAchievement()
-        {
-            if (bulletCount == 10 || bulletCount == 25 || bulletCount == 50)
-            {
-                var instance = EventManager.Instance;
-                if (instance)
-                {
-                    EventManager.Instance.InvokeBulletAchievement(bulletCount);
-                }
-            }
+            EventManager.Instance.InvokeOnBulletFired();
+            ShellService.Instance.GetShell(playerView.GetShellObject,playerView.GetFireTransform,velocity);
         }
         public PlayerModel GetPlayerModel()
         {

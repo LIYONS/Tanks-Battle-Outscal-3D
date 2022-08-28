@@ -31,14 +31,9 @@ namespace TankGame.Tanks.EnemyServices
                 OnDeath();
             }
         }
-        private void OnDeath()
+        public void OnDeath()
         {
             enemyView.OnDeath();
-        }
-
-        private void Destroy(GameObject gameObject)
-        {
-            throw new NotImplementedException();
         }
 
         public void SetTankView(EnemyView _enemyView)

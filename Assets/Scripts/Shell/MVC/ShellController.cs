@@ -27,7 +27,7 @@ namespace TankGame.Shell
                 enemyTankView.TakeDamage(damage);
             }
         }
-        float CalculateDamage(Vector3 targetPosition)
+        private float CalculateDamage(Vector3 targetPosition)
         {
             Vector3 explosionToTarget = targetPosition - shellView.transform.position;
             float explosionMagnitude = explosionToTarget.magnitude;

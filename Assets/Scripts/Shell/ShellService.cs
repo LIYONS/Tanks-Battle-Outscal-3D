@@ -6,7 +6,8 @@ namespace TankGame.Shell
 {
     public class ShellService : MonoSingletonGeneric<ShellService>
     {
-        [SerializeField] ShellView shellPrefab;
+        [SerializeField] private ShellView shellPrefab;
+
         private ShellServicePool shellServicePool;
 
         private void OnEnable()
@@ -14,16 +15,16 @@ namespace TankGame.Shell
             shellServicePool = GetComponent<ShellServicePool>();
         }
 
-        public Rigidbody GetShell(ShellObject shellObject)
+        public void GetShell(ShellObject shellObject,Transform spawnPoint,Vector3 velocity)
         {
             ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
             if (shellController != null)
             {
                 ShellView shellView = shellController.GetShellView;
                 PlayFireSound();
-                return shellView.GetComponent<Rigidbody>();
+                shellView.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+                shellView.GetComponent<Rigidbody>().velocity = velocity;
             }
-            return null;
         }
 
         private void PlayFireSound()

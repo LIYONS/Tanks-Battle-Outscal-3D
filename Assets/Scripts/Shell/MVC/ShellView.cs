@@ -8,6 +8,7 @@ namespace TankGame.Shell
 
         [SerializeField] private LayerMask tankLayer;
         [SerializeField] private ParticleSystem shellExplosionParticle;
+
         private ShellController shellController;
 
         private void OnTriggerEnter(Collider other)
@@ -23,7 +24,7 @@ namespace TankGame.Shell
             }
             ExplosionEffect();
         }
-        public void ExplosionEffect()
+        private void ExplosionEffect()
         {
             ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();
             PlayExplosionSound();

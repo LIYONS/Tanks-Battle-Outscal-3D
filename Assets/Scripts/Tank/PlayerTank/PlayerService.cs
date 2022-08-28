@@ -18,7 +18,7 @@ namespace TankGame.Tanks.PlayerServices
             CreatePlayerTank();
         }
 
-        void CreatePlayerTank()
+        private void CreatePlayerTank()
         {
             playerObject = tankList.tankSOList.Find(i => i.tankType == tankType);
             if (playerObject)

@@ -50,12 +50,8 @@ namespace TankGame.Tanks.EnemyServices
 
         private void Fire()
         {
-            Rigidbody shellInstance = ShellService.Instance.GetShell(bulletObject);
-            if (shellInstance)
-            {
-                shellInstance.transform.SetPositionAndRotation(fireTransform.position, fireTransform.rotation);
-                shellInstance.velocity = bulletObject.minLaunchForce * fireTransform.forward;
-            }
+            Vector3 velocity = bulletObject.minLaunchForce * fireTransform.forward;
+            ShellService.Instance.GetShell(bulletObject, fireTransform, velocity);
         }
         public void SetTarget(Transform _target)
         {

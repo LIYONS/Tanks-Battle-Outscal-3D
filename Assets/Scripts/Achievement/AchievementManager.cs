@@ -15,13 +15,14 @@ namespace TankGame.Achievements
         [SerializeField] private AchievementList achievementList;
         [SerializeField] private InGameUiHandler uiHandler;
 
-
+        private int bulletCount;
         private void Start()
         {
-            EventManager.Instance.BulletAchievement += CheckForBulletAchievement;
+            EventManager.Instance.OnBulletFired += CheckForBulletAchievement;
         }
-        private void CheckForBulletAchievement(int bulletCount)
+        private void CheckForBulletAchievement()
         {
+            bulletCount++;
             AchievementScriptableObject achievementObject = null;
             if (achievementList.List != null)
             {
@@ -74,7 +75,7 @@ namespace TankGame.Achievements
 
         private void OnDisable()
         {
-            EventManager.Instance.BulletAchievement -= CheckForBulletAchievement;
+            EventManager.Instance.OnBulletFired -= CheckForBulletAchievement;
         }
     }
 }

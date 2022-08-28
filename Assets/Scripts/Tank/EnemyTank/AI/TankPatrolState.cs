@@ -25,7 +25,7 @@ namespace TankGame.Tanks.EnemyServices
         {
             if (agent.remainingDistance < 2f)
             {
-                tankView.ChangeState(GetComponent<TankIdleState>());
+                tankView.ChangeState(StateType.Idle);
             }
             else if (agent.remainingDistance < 5f && agent.isStopped == true)
             {
@@ -41,7 +41,7 @@ namespace TankGame.Tanks.EnemyServices
             agent.SetDestination(target.position);
         }
 
-        void IterateWayPointIndex()
+        private void IterateWayPointIndex()
         {
             int temp;
             do

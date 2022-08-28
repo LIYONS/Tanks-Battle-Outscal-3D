@@ -2,9 +2,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using TankGame.GameManagers;
 using TankGame.CameraService;
+using System.Collections.Generic;
 
 namespace TankGame.Tanks.EnemyServices
 {
+    public enum StateType
+    {
+        Idle,
+        Patrol,
+        Chase,
+        Attack
+    }
+
+    [System.Serializable]
+    public struct State
+    {
+        public StateType stateType;
+        public TankState tankState;
+    }
     public class EnemyView : MonoBehaviour
     {
         [SerializeField] private Slider healthSlider;
@@ -12,20 +27,17 @@ namespace TankGame.Tanks.EnemyServices
         [SerializeField] private Color healthStartColor = Color.green;
         [SerializeField] private Color healthDamageColor = Color.red;
         [SerializeField] private GameObject explosionPrefab;
-        [SerializeField] private TankState defaultState;
-        [SerializeField] GameObject[] tankBody;
+        [SerializeField] private StateType defaultState;
+        [SerializeField] private GameObject[] tankBody;
+        [SerializeField] private List<State> states;
 
         private ParticleSystem explosionEffect;
         private EnemyController enemyController;
         private TankScriptableObject enemyObject;
         private TankState currentState;
+        private StateType currentStateType;
         private bool isAssigned = false;
 
-        private void Awake()
-        {
-            explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
-            explosionEffect.gameObject.SetActive(false);
-        }
 
         private void Start()
         {
@@ -33,14 +45,15 @@ namespace TankGame.Tanks.EnemyServices
             enemyObject = enemyController.GetEnemyModel().GetTankObject();
             SetColour();
             SetHealthUI(enemyObject.maxHealth);
-            currentState = defaultState;
-            currentState.OnEnterState();
+            ChangeState(defaultState);
+            explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
+            explosionEffect.gameObject.SetActive(false);
         }
         public void TakeDamage(float amount)
         {
             enemyController.TakeDamage(amount);
         }
-        void SetColour()
+        private void SetColour()
         {
             for (int i = 0; i < tankBody.Length; i++)
             {
@@ -55,23 +68,38 @@ namespace TankGame.Tanks.EnemyServices
             Invoke(nameof(SetUiInactive), enemyObject.healthSliderTimer);
         }
 
-        public void ChangeState(TankState newState)
+        public void ChangeState(StateType type)
         {
-            currentState.OnExitState();
-            newState.OnEnterState();
-            currentState = newState;
-            if ((currentState == GetComponent<TankChaseState>() || currentState == GetComponent<TankAttackState>()) && !isAssigned)
+            State state = GetState(type);
+            if(state.tankState!=null)
+            {
+                if(currentState!=null)
+                {
+                    currentState.OnExitState();
+                }
+                state.tankState.OnEnterState();
+                currentState = state.tankState;
+                currentStateType = state.stateType;
+            }
+            
+            
+            if ((currentStateType == StateType.Chase || currentStateType ==StateType.Attack) && !isAssigned)
             {
                 isAssigned = true;
                 CameraControl.Instance.AddCameraTargetPosition(this.transform);
             }
-            if ((currentState != GetComponent<TankChaseState>() && currentState != GetComponent<TankAttackState>()) && isAssigned)
+            if ((currentStateType != StateType.Chase && currentStateType != StateType.Attack) && isAssigned)
             {
                 isAssigned = false;
                 CameraControl.Instance.RemoveCameraTargetPosition(transform);
             }
         }
-        void SetUiInactive()
+
+        private State GetState(StateType type)
+        {
+            return states.Find(i => i.stateType == type);
+        }
+        private void SetUiInactive()
         {
             healthSlider.gameObject.SetActive(false);
             explosionEffect.gameObject.SetActive(false);
@@ -83,19 +111,22 @@ namespace TankGame.Tanks.EnemyServices
             {
                 CameraControl.Instance.RemoveCameraTargetPosition(transform);
             }
-            explosionEffect.gameObject.SetActive(true);
-            explosionEffect.gameObject.transform.position = transform.position;
-            explosionEffect.Play();
+            if(explosionEffect)
+            {
+                explosionEffect.gameObject.SetActive(true);
+                explosionEffect.gameObject.transform.position = transform.position;
+                explosionEffect.Play();
+            }
             PlayDeathSound();
             Destroy(gameObject);
         }
 
         private void PlayDeathSound()
         {
-            var instance = AudioManager.Instance;
-            if (instance)
+            AudioManager audioManager = AudioManager.Instance;
+            if (audioManager)
             {
-                instance.PlaySound(SoundType.TankExplode);
+                audioManager.PlaySound(SoundType.TankExplode);
             }
         }
         public void SetController(EnemyController _controller)

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TankGame.Tanks.PlayerServices;
 namespace TankGame.Tanks.EnemyServices
 {
     public class AnyState : TankState
@@ -19,27 +19,27 @@ namespace TankGame.Tanks.EnemyServices
                 if (!isChasing && !isAttacking)
                 {
                     GetComponent<TankChaseState>().SetTarget(target);
-                    tankView.ChangeState(GetComponent<TankChaseState>());
+                    tankView.ChangeState(StateType.Chase);
                     isChasing = true;
                 }
                 distance = Vector3.Distance(transform.position, target.position);
                 if (distance < attackDistance && !isAttacking)
                 {
                     GetComponent<TankAttackState>().SetTarget(target);
-                    tankView.ChangeState(GetComponent<TankAttackState>());
+                    tankView.ChangeState(StateType.Attack);
                     isAttacking = true;
                     isChasing = false;
                 }
             }
             if (distance > attackDistance && isAttacking)
             {
-                tankView.ChangeState(GetComponent<TankChaseState>());
+                tankView.ChangeState(StateType.Chase);
                 isAttacking = false;
                 isChasing = true;
             }
             if (target == null && isChasing)
             {
-                tankView.ChangeState(GetComponent<TankPatrolState>());
+                tankView.ChangeState(StateType.Patrol);
                 isChasing = false;
 
             }
@@ -50,7 +50,7 @@ namespace TankGame.Tanks.EnemyServices
             Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRadius, tankLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].tag == "Player")
+                if (colliders[i].GetComponent<PlayerView>() != null)
                 {
                     return colliders[i].transform;
                 }

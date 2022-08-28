@@ -5,12 +5,12 @@ namespace TankGame.GameManagers
 {
     public sealed class EventManager : MonoSingletonGeneric<EventManager>
     {
-        public event Action<int> BulletAchievement;
+        public event Action OnBulletFired;
         public event Action OnEnemyDeath;
         public event Action OnGameOver;
-        public void InvokeBulletAchievement(int bulletCount)
+        public void InvokeOnBulletFired()
         {
-            BulletAchievement?.Invoke(bulletCount);
+            OnBulletFired?.Invoke();
         }
 
         public void InvokeEnemyDeath()

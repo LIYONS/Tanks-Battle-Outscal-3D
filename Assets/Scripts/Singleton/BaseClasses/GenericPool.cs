@@ -12,7 +12,7 @@ namespace TankGame.GlobalServices
             if (pooledItems.Count > 0)
             {
                 pooledItem = pooledItems.Find(i => !i.isUsed);
-                if (pooledItem != null)
+                if (pooledItem.item != null)
                 {
                     pooledItem.isUsed = true;
                     return pooledItem.item;
@@ -39,13 +39,13 @@ namespace TankGame.GlobalServices
         public virtual void ReturnItem(T item)
         {
             PooledItem<T> pooledItem = pooledItems.Find(i => i.item.Equals(item));
-            if (pooledItem != null)
+            if (pooledItem.item != null)
             {
                 pooledItem.isUsed = false;
             }
         }
     }
-    public class PooledItem<T>
+    public struct PooledItem<T>
     {
         public T item;
         public bool isUsed;

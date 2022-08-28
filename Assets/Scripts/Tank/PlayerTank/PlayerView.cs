@@ -23,35 +23,40 @@ namespace TankGame.Tanks.PlayerServices
         private TankScriptableObject playerObject;
         private float movementInput;
         private float turnInput;
+        private Rigidbody rigidBody;
 
         private ShellServicePool bulletServicePool;
         private float chargingSpeed;
         private float fireTimer = 0f;
         private float currentLaunchForce;
         private bool fired = false;
-        private void Awake()
+        private void OnEnable()
         {
-            explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
-            explosionEffect.gameObject.SetActive(false);
+            EventManager.Instance.OnGameOver += OnDeath;
         }
         private void Start()
         {
             SetTankObject();
             SetColour();
             SetHealthUI(playerObject.maxHealth);
+            explosionEffect = Instantiate(explosionPrefab).GetComponent<ParticleSystem>();
+            explosionEffect.gameObject.SetActive(false);
             currentLaunchForce = shellObject.minLaunchForce;
             bulletServicePool = GetComponent<ShellServicePool>();
             aimSlider.value = currentLaunchForce;
             chargingSpeed = (shellObject.maxLaunchForce - shellObject.minLaunchForce) / shellObject.maxChargeTime;
             PlayGameSound(SoundType.TankIdle);
             CameraControl.Instance.AddCameraTargetPosition(transform);
+            rigidBody = GetComponent<Rigidbody>();
         }
         private void Update()
         {
             aimSlider.value = shellObject.minLaunchForce;
             FireCheck();
+            turnInput = Input.GetAxis("Horizontal");
+            movementInput = Input.GetAxis("Vertical");
         }
-        void FireCheck()
+        private void FireCheck()
         {
             if (fireTimer < Time.time)
             {
@@ -86,14 +91,13 @@ namespace TankGame.Tanks.PlayerServices
             fireTimer = Time.time + shellObject.nextFireDelay;
             currentLaunchForce = shellObject.minLaunchForce;
         }
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             Move();
             Turn();
         }
         private void Turn()
-        {
-            turnInput = Input.GetAxis("Horizontal");
+        {     
             if (turnInput != 0)
             {
                 playerController.Rotate(turnInput);
@@ -113,8 +117,7 @@ namespace TankGame.Tanks.PlayerServices
             playerController.TakeDamage(amount);
         }
         private void Move()
-        {
-            movementInput = Input.GetAxis("Vertical");
+        {    
             if (movementInput != 0)
             {
                 playerController.Movement(movementInput);
@@ -151,11 +154,11 @@ namespace TankGame.Tanks.PlayerServices
         {
             playerController = _controller;
         }
-        void SetTankObject()
+        private void SetTankObject()
         {
             playerObject = playerController.GetPlayerModel().GetTankObject();
         }
-        public Rigidbody GetRigidBody { get { return GetComponent<Rigidbody>(); } }
+        public Rigidbody GetRigidBody { get { return rigidBody; } }
 
 
         public ShellObject GetShellObject { get { return shellObject; } }
@@ -165,6 +168,10 @@ namespace TankGame.Tanks.PlayerServices
         public TankScriptableObject GetTankObject()
         {
             return playerObject;
+        }
+        private void OnDisable()
+        {
+            EventManager.Instance.OnGameOver -= OnDeath;
         }
     }
 }

@@ -10348,10 +10348,19 @@ MonoBehaviour:
   healthStartColor: {r: 0, g: 1, b: 0, a: 1}
   healthDamageColor: {r: 1, g: 0, b: 0, a: 1}
   explosionPrefab: {fileID: 151086, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
-  defaultState: {fileID: 8450971232576608855}
+  defaultState: 0
   tankBody:
   - {fileID: 6997545847218346591}
   - {fileID: 6997545847218346581}
+  states:
+  - stateType: 0
+    tankState: {fileID: 8450971232576608855}
+  - stateType: 1
+    tankState: {fileID: 6492721435383913174}
+  - stateType: 2
+    tankState: {fileID: 4676796650518699032}
+  - stateType: 3
+    tankState: {fileID: 5409754899769463331}
 --- !u!195 &-3436188604809674520
 NavMeshAgent:
   m_ObjectHideFlags: 0
