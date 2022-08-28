@@ -1,52 +1,53 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TankGame.GameManagers;
 
-public class ShellView : MonoBehaviour
+namespace TankGame.Shell
 {
-
-    [SerializeField] private LayerMask tankLayer;
-    [SerializeField] private ParticleSystem shellExplosionParticle;
-    private ShellController shellController;
-
-    private void OnTriggerEnter(Collider other)
+    public class ShellView : MonoBehaviour
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, shellController.GetShellModel.GetShellObject.explosionRadius, tankLayer);
-        for (int i = 0; i < colliders.Length; i++)
+
+        [SerializeField] private LayerMask tankLayer;
+        [SerializeField] private ParticleSystem shellExplosionParticle;
+        private ShellController shellController;
+
+        private void OnTriggerEnter(Collider other)
         {
-            Rigidbody rb = colliders[i].gameObject.GetComponent<Rigidbody>();
-            if (rb != null)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, shellController.GetShellModel.GetShellObject.explosionRadius, tankLayer);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                shellController.Explode(rb);
+                Rigidbody rb = colliders[i].gameObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    shellController.Explode(rb);
+                }
+            }
+            ExplosionEffect();
+        }
+        public void ExplosionEffect()
+        {
+            ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();
+            PlayExplosionSound();
+            particleSystem.transform.parent = null;
+            particleSystem.Play();
+            ReturnShell(particleSystem);
+        }
+        private void PlayExplosionSound()
+        {
+            var instance = AudioManager.Instance;
+            if (instance)
+            {
+                instance.PlaySound(SoundType.ShellExplode);
             }
         }
-        ExplosionEffect();
-    }
-    public void ExplosionEffect()
-    {
-        ParticleSystem particleSystem = Instantiate(shellExplosionParticle, this.transform).GetComponent<ParticleSystem>();
-        PlayExplosionSound();
-        particleSystem.transform.parent = null;
-        particleSystem.Play();
-        ReturnShell(particleSystem);
-    }
-    private void PlayExplosionSound()
-    {
-        var instance = AudioManager.Instance;
-        if(instance)
+        private void ReturnShell(ParticleSystem particleSystem)
         {
-            instance.PlaySound(SoundType.ShellExplode);
+            Destroy(particleSystem.gameObject, particleSystem.main.duration);
+            ShellService.Instance.ReturnToPool(shellController);
+            gameObject.SetActive(false);
         }
-    }
-    private void ReturnShell(ParticleSystem particleSystem)
-    {
-        Destroy(particleSystem.gameObject, particleSystem.main.duration);
-        ShellService.Instance.ReturnToPool(shellController);
-        gameObject.SetActive(false);
-    }
-    public void SetShellController(ShellController _controller)
-    {
-        shellController = _controller;
+        public void SetShellController(ShellController _controller)
+        {
+            shellController = _controller;
+        }
     }
 }

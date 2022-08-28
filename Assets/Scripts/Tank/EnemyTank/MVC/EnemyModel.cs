@@ -1,20 +1,23 @@
 using UnityEngine;
 
-public class EnemyModel
+namespace TankGame.Tanks.EnemyServices
 {
-    private TankScriptableObject enemyObject;
-    private EnemyController controller;
-    public EnemyModel(TankScriptableObject tankScriptableObject)
+    public class EnemyModel
     {
-        enemyObject = tankScriptableObject;
-    }
+        private TankScriptableObject enemyObject;
+        private EnemyController controller;
+        public EnemyModel(TankScriptableObject tankScriptableObject)
+        {
+            enemyObject = tankScriptableObject;
+        }
 
-    public TankScriptableObject GetTankObject()
-    {
-        return enemyObject;
-    }
-    public void SetTankController(EnemyController _controller)
-    {
-        controller = _controller;
+        public TankScriptableObject GetTankObject()
+        {
+            return enemyObject;
+        }
+        public void SetTankController(EnemyController _controller)
+        {
+            controller = _controller;
+        }
     }
 }

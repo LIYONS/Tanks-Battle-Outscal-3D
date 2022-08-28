@@ -1215,18 +1215,25 @@ MonoBehaviour:
   gameAS: {fileID: 442542072}
   sounds:
   - soundType: 0
+    audioSourceType: 1
     audioClip: {fileID: 8300000, guid: 8ce5d020a687c314891341b4126d1de2, type: 3}
   - soundType: 1
+    audioSourceType: 2
     audioClip: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   - soundType: 2
+    audioSourceType: 0
     audioClip: {fileID: 8300000, guid: a295282738233c34b8af3538a99c3b9f, type: 3}
   - soundType: 3
+    audioSourceType: 0
     audioClip: {fileID: 8300000, guid: 672a9941361ad494a99fba36759eca80, type: 3}
   - soundType: 4
+    audioSourceType: 0
     audioClip: {fileID: 8300000, guid: 3a77defcde1caaa40b6f7502547e0c4e, type: 3}
   - soundType: 5
+    audioSourceType: 0
     audioClip: {fileID: 8300000, guid: 5c27182a28a7eb942a362e6d198fe0e6, type: 3}
   - soundType: 6
+    audioSourceType: 0
     audioClip: {fileID: 8300000, guid: 22589435928755840b632da85550ec68, type: 3}
 --- !u!82 &442542072
 AudioSource:

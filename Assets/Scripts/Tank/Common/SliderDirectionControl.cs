@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SliderDirectionControl : MonoBehaviour
+namespace TankGame.Tanks
 {
-    private void Update()
+    public class SliderDirectionControl : MonoBehaviour
     {
-        transform.rotation = transform.parent.rotation;
+        private void Update()
+        {
+            transform.rotation = transform.parent.rotation;
+        }
     }
 }

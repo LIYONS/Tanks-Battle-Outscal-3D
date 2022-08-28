@@ -1,39 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TankGame.GameManagers;
+using TankGame.GlobalServices;
 
-public class ShellService : MonoSingletonGeneric<ShellService>
+namespace TankGame.Shell
 {
-    [SerializeField] ShellView shellPrefab;
-    private ShellServicePool shellServicePool;
-
-    private void OnEnable()
+    public class ShellService : MonoSingletonGeneric<ShellService>
     {
-        shellServicePool = GetComponent<ShellServicePool>();
-    }
+        [SerializeField] ShellView shellPrefab;
+        private ShellServicePool shellServicePool;
 
-    public Rigidbody GetShell(ShellObject shellObject)
-    {
-        ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
-        if (shellController != null)
+        private void OnEnable()
         {
-            ShellView shellView = shellController.GetShellView;
-            PlayFireSound();
-            return shellView.GetComponent<Rigidbody>();
+            shellServicePool = GetComponent<ShellServicePool>();
         }
-        return null;
-    }
 
-    private void PlayFireSound()
-    {
-        var instance = AudioManager.Instance;
-        if (instance)
+        public Rigidbody GetShell(ShellObject shellObject)
         {
-            instance.PlaySound(SoundType.Fire);
+            ShellController shellController = shellServicePool.GetBullet(shellPrefab, shellObject);
+            if (shellController != null)
+            {
+                ShellView shellView = shellController.GetShellView;
+                PlayFireSound();
+                return shellView.GetComponent<Rigidbody>();
+            }
+            return null;
         }
-    }
-    public void ReturnToPool(ShellController shellController)
-    {
-        shellServicePool.ReturnItem(shellController);
+
+        private void PlayFireSound()
+        {
+            var instance = AudioManager.Instance;
+            if (instance)
+            {
+                instance.PlaySound(SoundType.Fire);
+            }
+        }
+        public void ReturnToPool(ShellController shellController)
+        {
+            shellServicePool.ReturnItem(shellController);
+        }
     }
 }

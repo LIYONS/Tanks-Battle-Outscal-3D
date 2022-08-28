@@ -1,148 +1,154 @@
-using UnityEngine;
 using System.Collections.Generic;
-public class CameraControl: MonoSingletonGeneric<CameraControl>
+using UnityEngine;
+using TankGame.GameManagers;
+using TankGame.GlobalServices;
+
+namespace TankGame.CameraService
 {
-    private List<Transform> targets = new List<Transform>();
-
-    [SerializeField] private float dampTime = 0.2f;
-    [SerializeField] private float targetAdditionDampTime = 1.5f;
-    [SerializeField] private float screenEdgeBuffer = 4f;
-    [SerializeField] private float MinSize = 6.5f;
-    [SerializeField] private float MaxSize = 10f;
-
-    private Camera mainCamera;
-
-    private float originalDampTime;
-    private float zoomSpeed;
-    private Vector3 moveVelocity;
-    private Vector3 desiredPosition;
-
-    private bool isGameOver;
-
-    protected override void Awake()
+    public class CameraControl : MonoSingletonGeneric<CameraControl>
     {
-        base.Awake();
-        mainCamera = GetComponentInChildren<Camera>();
-        originalDampTime = dampTime;
-        isGameOver = false;
-    }
-    private void Start()
-    {
-         EventHandler.Instance.OnGameOver += GameOver;
-    }
-    private void OnDisable()
-    {
-        EventHandler.Instance.OnGameOver += GameOver;
-    }
-    private void FixedUpdate()
-    {
-        Move();
-        Zoom();
+        private List<Transform> targets = new();
 
-        if (dampTime != originalDampTime && !isGameOver)
+        [SerializeField] private float dampTime = 0.2f;
+        [SerializeField] private float targetAdditionDampTime = 1.5f;
+        [SerializeField] private float screenEdgeBuffer = 4f;
+        [SerializeField] private float MinSize = 6.5f;
+        [SerializeField] private float MaxSize = 10f;
+
+        private Camera mainCamera;
+
+        private float originalDampTime;
+        private float zoomSpeed;
+        private Vector3 moveVelocity;
+        private Vector3 desiredPosition;
+
+        private bool isGameOver;
+
+        protected override void Awake()
         {
-            ResetDampTime();
+            base.Awake();
+            mainCamera = GetComponentInChildren<Camera>();
+            originalDampTime = dampTime;
+            isGameOver = false;
         }
-    }
-
-    private void GameOver()
-    {
-        isGameOver = true;
-        RemoveAllCameraTargetPositions();
-    }
-
-    private void Move()
-    {
-        FindAveragePosition();
-
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref moveVelocity, dampTime);
-    }
-    private void FindAveragePosition()
-    {
-        Vector3 averagePos = new Vector3();
-        int numTargets = 0;
-
-        for (int i = 0; i < targets.Count; i++)
+        private void Start()
         {
-            if (targets[i]==null)
+            EventManager.Instance.OnGameOver += GameOver;
+        }
+        private void OnDisable()
+        {
+            EventManager.Instance.OnGameOver += GameOver;
+        }
+        private void FixedUpdate()
+        {
+            Move();
+            Zoom();
+
+            if (dampTime != originalDampTime && !isGameOver)
             {
-                continue;
-            }
-            if (i == 0 && !isGameOver)
-            {
-                averagePos += targets[i].position * 3;
-                numTargets += 3;
-            }
-            else
-            {
-                averagePos += targets[i].position;
-                numTargets++;
+                ResetDampTime();
             }
         }
 
-        if (numTargets > 0)
+        private void GameOver()
         {
-            averagePos /= numTargets;
+            isGameOver = true;
+            RemoveAllCameraTargetPositions();
         }
 
-        averagePos.y = transform.position.y;
-        desiredPosition = averagePos;
-    }
-    private void Zoom()
-    {
-        float requiredSize = FindRequiredSize();
-        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, requiredSize, ref zoomSpeed, dampTime);
-    }
-    private float FindRequiredSize()
-    {
-        Vector3 desiredLocalPosition = transform.InverseTransformPoint(desiredPosition);
-        float size = 0f;
-
-        for (int i = 0; i < targets.Count; i++)
+        private void Move()
         {
-            if (targets[i] ==null)
+            FindAveragePosition();
+
+            transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref moveVelocity, dampTime);
+        }
+        private void FindAveragePosition()
+        {
+            Vector3 averagePos = new Vector3();
+            int numTargets = 0;
+
+            for (int i = 0; i < targets.Count; i++)
             {
-                continue;
+                if (targets[i] == null)
+                {
+                    continue;
+                }
+                if (i == 0 && !isGameOver)
+                {
+                    averagePos += targets[i].position * 3;
+                    numTargets += 3;
+                }
+                else
+                {
+                    averagePos += targets[i].position;
+                    numTargets++;
+                }
             }
-            Vector3 targetLocalPosition = transform.InverseTransformPoint(targets[i].position);
 
-            Vector3 desiredPositionToTarget = targetLocalPosition - desiredLocalPosition;
+            if (numTargets > 0)
+            {
+                averagePos /= numTargets;
+            }
 
-            size = Mathf.Max(size, Mathf.Abs(desiredPositionToTarget.y));
-            size = Mathf.Max(size, Mathf.Abs(desiredPositionToTarget.x) / mainCamera.aspect);
+            averagePos.y = transform.position.y;
+            desiredPosition = averagePos;
         }
+        private void Zoom()
+        {
+            float requiredSize = FindRequiredSize();
+            mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, requiredSize, ref zoomSpeed, dampTime);
+        }
+        private float FindRequiredSize()
+        {
+            Vector3 desiredLocalPosition = transform.InverseTransformPoint(desiredPosition);
+            float size = 0f;
 
-        size = Mathf.Min(size, MaxSize);
-        size += screenEdgeBuffer;
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if (targets[i] == null)
+                {
+                    continue;
+                }
+                Vector3 targetLocalPosition = transform.InverseTransformPoint(targets[i].position);
 
-        size = Mathf.Max(size, MinSize);
+                Vector3 desiredPositionToTarget = targetLocalPosition - desiredLocalPosition;
 
-        return size;
-    }
-    public void AddCameraTargetPosition(Transform target)
-    {
-        dampTime = targetAdditionDampTime;
-        targets.Add(target);
-    }
-    public void RemoveCameraTargetPosition(Transform target)
-    {
-        if (!isGameOver)
+                size = Mathf.Max(size, Mathf.Abs(desiredPositionToTarget.y));
+                size = Mathf.Max(size, Mathf.Abs(desiredPositionToTarget.x) / mainCamera.aspect);
+            }
+
+            size = Mathf.Min(size, MaxSize);
+            size += screenEdgeBuffer;
+
+            size = Mathf.Max(size, MinSize);
+
+            return size;
+        }
+        public void AddCameraTargetPosition(Transform target)
         {
             dampTime = targetAdditionDampTime;
+            targets.Add(target);
         }
-        targets.Remove(target);
-    }
-    public void RemoveAllCameraTargetPositions()
-    {
-        for (int i = 0; i < targets.Count; i++)
+        public void RemoveCameraTargetPosition(Transform target)
         {
-            targets.Remove(targets[i]);
+            if (!isGameOver)
+            {
+                dampTime = targetAdditionDampTime;
+            }
+            targets.Remove(target);
         }
-    }
+        public void RemoveAllCameraTargetPositions()
+        {
+            for (int i = 0; i < targets.Count; i++)
+            {
+                targets.Remove(targets[i]);
+            }
+        }
 
-    private void ResetDampTime()
-    {
-        dampTime = Mathf.Lerp(dampTime, originalDampTime, Time.deltaTime);
+        private void ResetDampTime()
+        {
+            dampTime = Mathf.Lerp(dampTime, originalDampTime, Time.deltaTime);
+        }
     }
 }
 
